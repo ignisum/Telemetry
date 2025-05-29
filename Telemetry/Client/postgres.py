@@ -1,5 +1,8 @@
 import psycopg2
 from typing import Optional, Dict, Any, List
+
+from psycopg2._psycopg import Notify
+
 from models import Session, TelemetryPacket
 import logging
 
@@ -14,7 +17,7 @@ class PostgresManager:
     def listen_channel(self, channel: str):
         self.cursor.execute(f"LISTEN {channel};")
 
-    def get_notifications(self) -> Optional[Dict]:
+    def get_notifications(self) -> Notify | None:
         self.conn.poll()
         if self.conn.notifies:
             return self.conn.notifies.pop(0)

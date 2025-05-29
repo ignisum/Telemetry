@@ -1,7 +1,6 @@
 import json
 import requests
 from requests.adapters import HTTPAdapter
-from requests import Response
 from signalrcore.hub_connection_builder import HubConnectionBuilder
 from urllib3 import Retry
 from typing import Callable

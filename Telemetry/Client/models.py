@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from datetime import datetime
 from constants import Columns
-from typing import List, Optional
+from typing import Optional
 
 
 @dataclass
@@ -20,7 +20,7 @@ class TelemetryPacket:
 
     @classmethod
     def get_column_names(cls):
-        return ([col.value for col in Columns])
+        return [col.value for col in Columns]
 
 @dataclass
 class Session:

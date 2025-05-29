@@ -1,17 +1,17 @@
 import json
 from datetime import datetime
 from logging.handlers import RotatingFileHandler
-from typing import Optional, Dict, Any, List, Tuple, Union
+from typing import Optional, List, Union
 import logging
 
 from PySide6.QtCore import QTimer, Qt
 from PySide6.QtGui import QColor
-from PySide6.QtWidgets import QMainWindow, QMessageBox, QTableWidgetItem, QHeaderView
+from PySide6.QtWidgets import QMainWindow, QMessageBox, QTableWidgetItem
 
 from config import Config
 from constants import Columns, Tooltips
 from core import SignalRClient, TelemetryApiClient
-from models import TelemetryPacket, Session
+from models import TelemetryPacket
 from postgres import PostgresManager
 from ui_telemetry_client import Ui_MainWindow
 
@@ -37,8 +37,6 @@ class MainWindow(QMainWindow):
 
         self.db_connected: bool = False
         self.check_db_connection()
-
-
 
         self.init_ui()
         self.setup_connections()
@@ -66,10 +64,6 @@ class MainWindow(QMainWindow):
             table.setColumnCount(len(Columns))
             table.setHorizontalHeaderLabels([col.value for col in Columns])
 
-            header = table.horizontalHeader()
-            header.setSectionResizeMode(QHeaderView.Stretch)
-            header.setDefaultAlignment(Qt.AlignCenter)
-
             for i, col in enumerate(Columns):
                 table.horizontalHeaderItem(i).setToolTip(Tooltips[col.name].value)
 
@@ -88,7 +82,6 @@ class MainWindow(QMainWindow):
 
     def setup_timers(self) -> None:
         self.db_check_timer = QTimer()
-        self.db_check_timer.timeout.connect(self.check_db_notifications)
         self.db_check_timer.start(1000)
 
     def check_db_connection(self) -> None:
@@ -160,8 +153,6 @@ class MainWindow(QMainWindow):
 
         session_id = int(session_id_str)
         self.logger.debug(f"Загрузка пакетов для сессии ID: {session_id}")
-
-        session_name = "Неизвестная сессия"
         time_range = "N/A"
 
         if "(" in rest and ")" in rest:
@@ -365,12 +356,6 @@ class MainWindow(QMainWindow):
                 "Не удалось подключиться к серверу!",
                 QMessageBox.StandardButton.Ok
             )
-
-    def check_db_notifications(self) -> None:
-        if notification := self.db.get_notifications():
-            if packet := self.db.get_packet(int(notification.payload)):
-                self.handle_new_packet(packet)
-                self.logger.debug(f"Получено уведомление от БД для пакета {notification.payload}")
 
     def check_server_status(self) -> None:
         if not self.signalr_connected and self.current_reconnect_attempt < self.MAX_RECONNECT_ATTEMPTS:
