@@ -8,14 +8,15 @@ from typing import Callable
 
 class SignalRClient:
     def __init__(self, url: str):
-        self.connection = HubConnectionBuilder() \
-            .with_url(url) \
-            .with_automatic_reconnect({
+        connection_builder = HubConnectionBuilder()
+        connection_builder.with_url(url)
+        connection_builder.with_automatic_reconnect({
             "type": "interval",
             "keep_alive_interval": 10,
             "reconnect_interval": 30,
             "max_attempts": 3
-        }).build()
+        })
+        self.connection = connection_builder.build()
 
     def connect(self):
         self.connection.start()
@@ -32,7 +33,8 @@ class TelemetryApiClient:
         self.base_url = base_url.rstrip('/')
         self._session = self._create_session()
 
-    def _create_session(self):
+    @classmethod
+    def _create_session(cls):
         session = requests.Session()
         retry = Retry(total=3, backoff_factor=1, status_forcelist=[500, 502, 503, 504])
         adapter = HTTPAdapter(max_retries=retry)

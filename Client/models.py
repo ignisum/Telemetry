@@ -22,6 +22,7 @@ class TelemetryPacket:
     def get_column_names(cls):
         return [col.value for col in Columns]
 
+
 @dataclass
 class Session:
     id: int

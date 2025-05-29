@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class Columns(str, Enum):
+class Columns(Enum):
     ID = "ID"
     COUNTER = "Счётчик"
     TIME = "Время"
@@ -10,7 +10,8 @@ class Columns(str, Enum):
     STATUS = "Статус"
     SESSION = "Сеанс"
 
-class Tooltips(str, Enum):
+
+class Tooltips(Enum):
     ID = "Уникальный идентификатор пакета"
     COUNTER = "Счетчик пакетов"
     TIME = "Временная метка"

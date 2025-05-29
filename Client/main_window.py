@@ -43,6 +43,8 @@ class MainWindow(QMainWindow):
         self.setup_timers()
         self.update_ui_state()
 
+        self.current_session_id = None
+
     def _setup_logging(self) -> None:
         logging.basicConfig(
             level=logging.INFO,
@@ -357,20 +359,6 @@ class MainWindow(QMainWindow):
                 QMessageBox.StandardButton.Ok
             )
 
-    def check_server_status(self) -> None:
-        if not self.signalr_connected and self.current_reconnect_attempt < self.MAX_RECONNECT_ATTEMPTS:
-            self.current_reconnect_attempt += 1
-            self.signalr.connect()
-            self.logger.info(f"Попытка переподключения #{self.current_reconnect_attempt}")
-
-            try:
-                http_ok = self.api.get_status().status_code == 200
-                status = f"HTTP: {'OK' if http_ok else 'ERROR'} | SignalR: {'CONNECTED' if self.signalr_connected else 'DISCONNECTED'}"
-                self.ui.statusbar.showMessage(status)
-            except Exception as e:
-                self.logger.error(f"Ошибка проверки статуса сервера: {e}")
-                self.ui.statusbar.showMessage("Сервер недоступен", 3000)
-
     def on_connected(self) -> None:
         self.signalr_connected = True
         self.current_reconnect_attempt = 0
@@ -428,6 +416,21 @@ class MainWindow(QMainWindow):
             )
         else:
             self.logger.warning(f"Предупреждение: {message}")
+
+    # def check_server_status(self) -> None:
+    #     if not self.signalr_connected and self.current_reconnect_attempt < self.MAX_RECONNECT_ATTEMPTS:
+    #         self.current_reconnect_attempt += 1
+    #         self.signalr.connect()
+    #         self.logger.info(f"Попытка переподключения #{self.current_reconnect_attempt}")
+    #
+    #         try:
+    #             http_ok = self.api.get_status().status_code == 200
+    #             status = (f"HTTP: {'OK' if http_ok else 'ERROR'} | "
+    #                       f"SignalR: {'CONNECTED' if self.signalr_connected else 'DISCONNECTED'}")
+    #             self.ui.statusbar.showMessage(status)
+    #         except Exception as e:
+    #             self.logger.error(f"Ошибка проверки статуса сервера: {e}")
+    #             self.ui.statusbar.showMessage("Сервер недоступен", 3000)
 
     def closeEvent(self, event) -> None:
         if self.is_generation_active:
