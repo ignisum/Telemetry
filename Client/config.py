@@ -3,6 +3,6 @@ class Config:
     DB_CONFIG = {
         "dbname": "Telemetry",
         "user": "postgres",
-        "password": "2006",
+        "password": "1",
         "host": "localhost"
     }

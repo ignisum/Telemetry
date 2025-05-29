@@ -10,7 +10,7 @@ from PySide6.QtWidgets import QMainWindow, QMessageBox, QTableWidgetItem
 
 from config import Config
 from server_connection import SignalRClient, TelemetryApiClient
-from models import TelemetryPacket
+from row_models import TelemetryPacket
 from postgres import PostgresManager
 from ui_telemetry_client import Ui_MainWindow
 
@@ -74,17 +74,6 @@ class MainWindow(QMainWindow):
         self.db_check_timer.start(1000)
 
     def _check_db_connection(self) -> None:
-        if not hasattr(self, 'db') or not hasattr(self.db, 'cursor'):
-            self.db_connected = False
-            self.logger.error("Ошибка подключения к БД: отсутствует атрибут db или cursor")
-            QMessageBox.critical(
-                self,
-                "Ошибка БД",
-                "Не удалось подключиться к базе данных!",
-                QMessageBox.StandardButton.Ok
-            )
-            return
-
         self.db_connected = self.db.cursor is not None
         if not self.db_connected:
             self.logger.error("Курсор БД не инициализирован")
@@ -98,23 +87,18 @@ class MainWindow(QMainWindow):
             self.logger.info("Подключение к БД установлено")
 
     def _refresh_sessions(self) -> None:
-        if not self.db_connected or not hasattr(self.db, 'get_sessions'):
+        if not self.db_connected:
             self.logger.warning("Попытка обновить сессии без подключения к БД")
             self.show_error("Нет подключения к БД")
             return
 
+        self.ui.listSessions.clear()
         sessions = self.db.get_sessions()
         if not sessions:
-            self.ui.listSessions.clear()
             self.logger.debug("В базе данных не найдено сессий")
             return
 
-        self.ui.listSessions.clear()
         for session in sessions:
-            if not hasattr(session, 'formatted_start_time') or not hasattr(session, 'formatted_end_time'):
-                self.logger.warning(f"Некорректный объект сессии: {session}")
-                continue
-
             start_str = session.formatted_start_time
             end_str = session.formatted_end_time if session.end_time else "Активна"
             self.ui.listSessions.addItem(f"{session.id}: {session.name} ({start_str} - {end_str})")
@@ -159,9 +143,7 @@ class MainWindow(QMainWindow):
 
         self.ui.HistoryPacketTableWidget.setRowCount(0)
         packet_count = len(packets)
-        self.ui.lblSessionInfo.setText(
-            f"Сессия: {session_name} | Диапазон: {time_range} | Пакетов: {packet_count}"
-        )
+        self.ui.lblSessionInfo.setText(f"Сессия: {session_name} | Диапазон: {time_range} | Пакетов: {packet_count}")
 
         for packet in packets:
             packet_data = {

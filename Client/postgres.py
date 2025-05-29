@@ -3,7 +3,7 @@ from typing import Dict, Any, List
 
 import psycopg2
 
-from models import Session, TelemetryPacket
+from row_models import Session, TelemetryPacket
 
 
 class PostgresManager:
@@ -80,37 +80,3 @@ class PostgresManager:
                     self.conn.close()
         except Exception as e:
             logging.error(f"Ошибка закрытия соединения: {e}")
-
-    # def listen_channel(self, channel: str):
-    #     self.cursor.execute(f"LISTEN {channel};")
-    #
-    # def get_notifications(self) -> Notify | None:
-    #     self.conn.poll()
-    #     if self.conn.notifies:
-    #         return self.conn.notifies.pop(0)
-    #     return None
-    #
-    # def get_packet(self, packet_id: int) -> Optional[TelemetryPacket]:
-    #     self.cursor.execute(
-    #         "SELECT id, packet_counter, timestamp, payload, crc16, session_id FROM public.Packets WHERE id = %s",
-    #         (packet_id,)
-    #     )
-    #     if data := self.cursor.fetchone():
-    #         return TelemetryPacket(
-    #             id=data[0],
-    #             counter=data[1],
-    #             timestamp=data[2],
-    #             payload=data[3],
-    #             crc16=data[4],
-    #             session_id=data[5]
-    #         )
-    #     return None
-    #
-    # def create_session(self, name: str) -> Session:
-    #     self.cursor.execute(
-    #        """ "INSERT INTO public."Sessions" (name) VALUES (%s) RETURNING id, startTime",
-    #         name """
-    #     )
-    #     session_id, start_time = self.cursor.fetchone()
-    #     self.conn.commit()
-    #     return Session(id=session_id, name=name, start_time=start_time.timestamp())
