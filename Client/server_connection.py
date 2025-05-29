@@ -42,31 +42,6 @@ class TelemetryApiClient:
         session.mount('https://', adapter)
         return session
 
-    def get_status(self):
-        return self._session.get(f"{self.base_url}/status", timeout=5)
-
-    # def get_sessions(self):
-    #     response = self._session.get(f"{self.base_url}/sessions", timeout=10)
-    #     response.raise_for_status()
-    #     return response.json() if response.text.strip() else []
-    #
-    # def get_session_packets(self, session_id):
-    #     endpoints = [
-    #         f"/sessions/{session_id}/packets",
-    #         f"/session/{session_id}/telemetry",
-    #         f"/api/sessions/{session_id}/data"
-    #     ]
-    #
-    #     for endpoint in endpoints:
-    #         try:
-    #             response = self._session.get(f"{self.base_url}{endpoint}", timeout=10)
-    #             if response.status_code == 200:
-    #                 return response.json()
-    #             response.raise_for_status()
-    #         except Exception:
-    #             continue
-    #     return []
-
     def start_session(self, name):
         response = self._session.post(
             f"{self.base_url}/sessions/start",
@@ -89,6 +64,3 @@ class TelemetryApiClient:
 
     def stop_generation(self):
         return self._session.post(f"{self.base_url}/stop", timeout=2)
-
-    def end_session(self):
-        return self._session.post(f"{self.base_url}/sessions/end", timeout=2)

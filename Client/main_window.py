@@ -1,16 +1,15 @@
 import json
+import logging
 from datetime import datetime
 from logging.handlers import RotatingFileHandler
 from typing import Optional, List, Union
-import logging
 
 from PySide6.QtCore import QTimer, Qt
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QMainWindow, QMessageBox, QTableWidgetItem
 
 from config import Config
-from constants import Columns, Tooltips
-from core import SignalRClient, TelemetryApiClient
+from server_connection import SignalRClient, TelemetryApiClient
 from models import TelemetryPacket
 from postgres import PostgresManager
 from ui_telemetry_client import Ui_MainWindow
@@ -26,24 +25,23 @@ class MainWindow(QMainWindow):
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+
         self.current_packet_counter: int = 0
         self.signalr_connected: bool = False
         self.is_generation_active: bool = False
         self.current_reconnect_attempt: int = 0
+        self.current_session_id: int = 0
+        self.db_connected: bool = False
 
         self.signalr: SignalRClient = SignalRClient(f'{Config.SERVER_URL}/telemetryhub')
         self.api: TelemetryApiClient = TelemetryApiClient(Config.SERVER_URL + "/api/Telemetry")
         self.db: PostgresManager = PostgresManager(Config.DB_CONFIG)
+        self.db_check_timer: QTimer = QTimer()
 
-        self.db_connected: bool = False
-        self.check_db_connection()
-
-        self.init_ui()
-        self.setup_connections()
-        self.setup_timers()
+        self._setup_ui_signals()
+        self._check_db_connection()
+        self._setup_timers()
         self.update_ui_state()
-
-        self.current_session_id = None
 
     def _setup_logging(self) -> None:
         logging.basicConfig(
@@ -59,34 +57,23 @@ class MainWindow(QMainWindow):
         )
         self.logger = logging.getLogger(__name__)
 
-    def init_ui(self) -> None:
-        self.setWindowTitle("Телеметрический клиент")
-
-        for table in [self.ui.PacketTableWidget, self.ui.tableSessionPackets]:
-            table.setColumnCount(len(Columns))
-            table.setHorizontalHeaderLabels([col.value for col in Columns])
-
-            for i, col in enumerate(Columns):
-                table.horizontalHeaderItem(i).setToolTip(Tooltips[col.name].value)
-
-    def setup_connections(self) -> None:
+    def _setup_ui_signals(self) -> None:
         self.ui.btnConnect.clicked.connect(self.toggle_connection)
         self.ui.btnStart.clicked.connect(self.start_generation)
         self.ui.btnStop.clicked.connect(self.stop_generation)
-        self.ui.btnRefreshSessions.clicked.connect(self.refresh_sessions)
+        self.ui.btnRefreshSessions.clicked.connect(self._refresh_sessions)
 
-        self.signalr.on_packet_received(self.handle_new_packet)
+        self.signalr.on_packet_received(self._handle_new_packet)
         self.signalr.connection.on_open(self.on_connected)
         self.signalr.connection.on_close(self.on_disconnected)
         self.signalr.connection.on_error(self.handle_error)
 
-        self.ui.listSessions.itemSelectionChanged.connect(self.load_session_packets)
+        self.ui.listSessions.itemSelectionChanged.connect(self._load_session_packets)
 
-    def setup_timers(self) -> None:
-        self.db_check_timer = QTimer()
+    def _setup_timers(self) -> None:
         self.db_check_timer.start(1000)
 
-    def check_db_connection(self) -> None:
+    def _check_db_connection(self) -> None:
         if not hasattr(self, 'db') or not hasattr(self.db, 'cursor'):
             self.db_connected = False
             self.logger.error("Ошибка подключения к БД: отсутствует атрибут db или cursor")
@@ -110,7 +97,7 @@ class MainWindow(QMainWindow):
         else:
             self.logger.info("Подключение к БД установлено")
 
-    def refresh_sessions(self) -> None:
+    def _refresh_sessions(self) -> None:
         if not self.db_connected or not hasattr(self.db, 'get_sessions'):
             self.logger.warning("Попытка обновить сессии без подключения к БД")
             self.show_error("Нет подключения к БД")
@@ -134,7 +121,7 @@ class MainWindow(QMainWindow):
 
         self.logger.info(f"Список сессий обновлен, количество: {len(sessions)}")
 
-    def load_session_packets(self) -> None:
+    def _load_session_packets(self) -> None:
         selected = self.ui.listSessions.currentItem()
         if not selected:
             return
@@ -170,7 +157,7 @@ class MainWindow(QMainWindow):
             self.show_error("Для выбранной сессии нет пакетов данных")
             return
 
-        self.ui.tableSessionPackets.setRowCount(0)
+        self.ui.HistoryPacketTableWidget.setRowCount(0)
         packet_count = len(packets)
         self.ui.lblSessionInfo.setText(
             f"Сессия: {session_name} | Диапазон: {time_range} | Пакетов: {packet_count}"
@@ -186,20 +173,20 @@ class MainWindow(QMainWindow):
                 'status': packet.status
             }
 
-            self.add_packet_to_table(
-                self.ui.tableSessionPackets,
+            self._add_packet_to_table(
+                self.ui.HistoryPacketTableWidget,
                 packet_data,
                 f"{session_id}: {session_name}"
             )
 
         self.logger.info(f"Загружено {packet_count} пакетов для сессии {session_id}")
 
-    def handle_new_packet(self, packet: Union[dict, str, list]) -> None:
+    def _handle_new_packet(self, packet: Union[dict, str, list]) -> None:
         if not packet:
             self.logger.debug("Получен пустой пакет")
             return
 
-        parsed = self.parse_packet(packet)
+        parsed = self._parse_packet(packet)
         if not parsed:
             self.logger.warning("Не удалось распарсить пакет")
             return
@@ -216,26 +203,26 @@ class MainWindow(QMainWindow):
             'status': parsed.status
         }
 
-        self.add_packet_to_table(self.ui.PacketTableWidget, packet_data, session_text)
+        self._add_packet_to_table(self.ui.PacketTableWidget, packet_data, session_text)
         self.logger.debug(f"Обработан пакет #{self.current_packet_counter}")
 
-    def prepare_packet_items(self, packet: dict, session_info: Optional[str] = None) -> List[str]:
+    def _prepare_packet_items(self, packet: dict, session_info: Optional[str] = None) -> List[str]:
         payload = packet.get('payload', 0)
         return [
             str(packet.get('id', 'N/A')),
             str(packet.get('counter', packet.get('packetCounter', 'N/A'))),
-            self.format_time(packet.get('timestamp')),
+            self._format_time(packet.get('timestamp')),
             f"{payload:.4f}",
             hex(packet.get('crc16', 0)),
             'NegativeValue' if payload < 0 else 'OK',
             str(session_info) if session_info else "Текущая"
         ]
 
-    def add_packet_to_table(self, table, packet: dict, session_info: Optional[str] = None) -> None:
+    def _add_packet_to_table(self, table, packet: dict, session_info: Optional[str] = None) -> None:
         row = table.rowCount()
         table.insertRow(row)
 
-        items = self.prepare_packet_items(packet, session_info)
+        items = self._prepare_packet_items(packet, session_info)
         payload = packet.get('payload', 0)
 
         for col, text in enumerate(items):
@@ -245,7 +232,7 @@ class MainWindow(QMainWindow):
                 item.setBackground(QColor(255, 230, 230))
             table.setItem(row, col, item)
 
-    def parse_packet(self, raw_packet: Union[dict, str, list]) -> Optional[TelemetryPacket]:
+    def _parse_packet(self, raw_packet: Union[dict, str, list]) -> Optional[TelemetryPacket]:
         if not raw_packet:
             return None
 
@@ -275,7 +262,7 @@ class MainWindow(QMainWindow):
             status='NegativeValue' if payload < 0 else 'OK'
         )
 
-    def format_time(self, time_value: Union[int, float, str, None]) -> str:
+    def _format_time(self, time_value: Union[int, float, str, None]) -> str:
         if not time_value:
             return "N/A"
 
@@ -395,7 +382,7 @@ class MainWindow(QMainWindow):
         self.ui.btnConnect.setText("Отключиться" if self.signalr_connected else "Подключиться")
         self.ui.btnStart.setEnabled(self.signalr_connected and not self.is_generation_active)
         self.ui.btnStop.setEnabled(self.is_generation_active)
-        self.check_db_connection()
+        self._check_db_connection()
         db_status = "БД: ✔" if self.db_connected else "БД: ✖"
         gen_status = f"Генерация: {'ВКЛ' if self.is_generation_active else 'ВЫКЛ'}"
         server_status = "Сервер: ОТКЛЮЧЕН" if not self.signalr_connected else "Сервер: ✔"
@@ -416,21 +403,6 @@ class MainWindow(QMainWindow):
             )
         else:
             self.logger.warning(f"Предупреждение: {message}")
-
-    # def check_server_status(self) -> None:
-    #     if not self.signalr_connected and self.current_reconnect_attempt < self.MAX_RECONNECT_ATTEMPTS:
-    #         self.current_reconnect_attempt += 1
-    #         self.signalr.connect()
-    #         self.logger.info(f"Попытка переподключения #{self.current_reconnect_attempt}")
-    #
-    #         try:
-    #             http_ok = self.api.get_status().status_code == 200
-    #             status = (f"HTTP: {'OK' if http_ok else 'ERROR'} | "
-    #                       f"SignalR: {'CONNECTED' if self.signalr_connected else 'DISCONNECTED'}")
-    #             self.ui.statusbar.showMessage(status)
-    #         except Exception as e:
-    #             self.logger.error(f"Ошибка проверки статуса сервера: {e}")
-    #             self.ui.statusbar.showMessage("Сервер недоступен", 3000)
 
     def closeEvent(self, event) -> None:
         if self.is_generation_active:

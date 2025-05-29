@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from datetime import datetime
-from constants import Columns
 from typing import Optional
 
 
@@ -13,14 +12,6 @@ class TelemetryPacket:
     crc16: int
     session_id: Optional[int] = None
     status: str = "OK"
-
-    @property
-    def formatted_time(self):
-        return datetime.fromtimestamp(self.timestamp).strftime('%Y-%m-%d %H:%M:%S')
-
-    @classmethod
-    def get_column_names(cls):
-        return [col.value for col in Columns]
 
 
 @dataclass
