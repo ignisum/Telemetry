@@ -41,7 +41,7 @@ class MainWindow(QMainWindow):
         self._setup_ui_signals()
         self._check_db_connection()
         self._setup_timers()
-        self.update_ui_state()
+        self._update_ui_state()
 
     def _setup_logging(self) -> None:
         logging.basicConfig(
@@ -58,15 +58,15 @@ class MainWindow(QMainWindow):
         self.logger = logging.getLogger(__name__)
 
     def _setup_ui_signals(self) -> None:
-        self.ui.btnConnect.clicked.connect(self.toggle_connection)
-        self.ui.btnStart.clicked.connect(self.start_generation)
-        self.ui.btnStop.clicked.connect(self.stop_generation)
+        self.ui.btnConnect.clicked.connect(self._toggle_server_connection)
+        self.ui.btnStart.clicked.connect(self._start_generation)
+        self.ui.btnStop.clicked.connect(self._stop_generation)
         self.ui.btnRefreshSessions.clicked.connect(self._refresh_sessions)
 
         self.signalr.on_packet_received(self._handle_new_packet)
-        self.signalr.connection.on_open(self.on_connected)
-        self.signalr.connection.on_close(self.on_disconnected)
-        self.signalr.connection.on_error(self.handle_error)
+        self.signalr.connection.on_open(self._on_server_connected)
+        self.signalr.connection.on_close(self._on_server_disconnected)
+        self.signalr.connection.on_error(self._handle_error)
 
         self.ui.listSessions.itemSelectionChanged.connect(self._load_session_packets)
 
@@ -89,7 +89,7 @@ class MainWindow(QMainWindow):
     def _refresh_sessions(self) -> None:
         if not self.db_connected:
             self.logger.warning("Попытка обновить сессии без подключения к БД")
-            self.show_error("Нет подключения к БД")
+            self._show_error("Нет подключения к БД")
             return
 
         self.ui.listSessions.clear()
@@ -115,13 +115,13 @@ class MainWindow(QMainWindow):
 
         if len(parts) < 2:
             self.logger.warning(f"Неверный формат сессии: {session_text}")
-            self.show_error("Неверный формат записи сессии")
+            self._show_error("Неверный формат записи сессии")
             return
 
         session_id_str, rest = parts[0].strip(), parts[1].strip()
         if not session_id_str.isdigit():
             self.logger.warning(f"Неверный формат ID сессии: {session_id_str}")
-            self.show_error(f"Неверный формат ID сессии: {session_id_str}")
+            self._show_error(f"Неверный формат ID сессии: {session_id_str}")
             return
 
         session_id = int(session_id_str)
@@ -138,7 +138,7 @@ class MainWindow(QMainWindow):
         packets = self.db.get_session_packets(session_id)
         if not packets:
             self.logger.info(f"Для сессии {session_id} не найдено пакетов")
-            self.show_error("Для выбранной сессии нет пакетов данных")
+            self._show_error("Для выбранной сессии нет пакетов данных")
             return
 
         self.ui.HistoryPacketTableWidget.setRowCount(0)
@@ -259,15 +259,15 @@ class MainWindow(QMainWindow):
             self.logger.error(f"Ошибка формата времени: {e}")
             return "N/A"
 
-    def start_generation(self) -> None:
+    def _start_generation(self) -> None:
         if not self.db_connected:
             self.logger.warning("Попытка запустить генерацию без подключения к БД")
-            self.show_error("Нет подключения к БД! Данные не будут сохранены.")
+            self._show_error("Нет подключения к БД! Данные не будут сохранены.")
             return
 
         if not self.signalr_connected:
             self.logger.warning("Попытка запустить генерацию без подключения к серверу")
-            self.show_error("Сначала подключитесь к серверу")
+            self._show_error("Сначала подключитесь к серверу")
             return
 
         self.current_packet_counter = 0
@@ -278,13 +278,13 @@ class MainWindow(QMainWindow):
 
         if response.status_code != 200:
             self.logger.error(f"Ошибка запуска сессии, код статуса: {response.status_code}")
-            self.show_error("Ошибка создания сессии")
+            self._show_error("Ошибка создания сессии")
             return
 
         session_data = response.json()
         if 'SessionId' not in session_data:
             self.logger.error("Некорректный формат ответа сервера")
-            self.show_error("Неверный формат ответа сервера")
+            self._show_error("Неверный формат ответа сервера")
             return
 
         self.current_session_id = session_data['SessionId']
@@ -292,26 +292,26 @@ class MainWindow(QMainWindow):
 
         if response.status_code == 200:
             self.is_generation_active = True
-            self.update_ui_state()
+            self._update_ui_state()
             self.logger.info(f"Генерация запущена для сессии {self.current_session_id}")
         else:
             self.logger.error(f"Ошибка запуска генерации, код статуса: {response.status_code}")
-            self.show_error("Ошибка запуска генерации")
+            self._show_error("Ошибка запуска генерации")
 
-    def stop_generation(self) -> None:
+    def _stop_generation(self) -> None:
         if not self.is_generation_active:
             return
 
         response = self.api.stop_generation()
         if response.status_code == 200:
             self.is_generation_active = False
-            self.update_ui_state()
+            self._update_ui_state()
             self.logger.info("Генерация остановлена")
         else:
             self.logger.error(f"Ошибка остановки генерации, код статуса: {response.status_code}")
-            self.show_error("Сервер не подтвердил остановку генерации")
+            self._show_error("Сервер не подтвердил остановку генерации")
 
-    def toggle_connection(self) -> None:
+    def _toggle_server_connection(self) -> None:
         try:
             if self.signalr_connected:
                 self.signalr.disconnect()
@@ -328,21 +328,21 @@ class MainWindow(QMainWindow):
                 QMessageBox.StandardButton.Ok
             )
 
-    def on_connected(self) -> None:
+    def _on_server_connected(self) -> None:
         self.signalr_connected = True
         self.current_reconnect_attempt = 0
-        self.update_ui_state()
+        self._update_ui_state()
         self.logger.info("Успешное подключение к серверу")
 
-    def on_disconnected(self) -> None:
+    def _on_server_disconnected(self) -> None:
         self.signalr_connected = False
         self.is_generation_active = False
-        self.update_ui_state()
+        self._update_ui_state()
         self.logger.info("Отключено от сервера")
         if "✔" in self.ui.statusbar.currentMessage():
-            self.show_error("Соединение с сервером закрыто")
+            self._show_error("Соединение с сервером закрыто")
 
-    def handle_error(self, error: str) -> None:
+    def _handle_error(self, error: str) -> None:
         error_msg = str(error)
         if not error_msg or "WinError" in error_msg:
             error_msg = "Сервер разорвал соединение"
@@ -358,9 +358,9 @@ class MainWindow(QMainWindow):
             QMessageBox.StandardButton.Ok
         )
 
-        self.update_ui_state()
+        self._update_ui_state()
 
-    def update_ui_state(self) -> None:
+    def _update_ui_state(self) -> None:
         self.ui.btnConnect.setText("Отключиться" if self.signalr_connected else "Подключиться")
         self.ui.btnStart.setEnabled(self.signalr_connected and not self.is_generation_active)
         self.ui.btnStop.setEnabled(self.is_generation_active)
@@ -371,7 +371,7 @@ class MainWindow(QMainWindow):
 
         self.ui.statusbar.showMessage(f"{db_status} | {gen_status} | {server_status}")
 
-    def show_error(self, message: str) -> None:
+    def _show_error(self, message: str) -> None:
         if not message.strip():
             message = "Произошла неизвестная ошибка"
         self.ui.statusbar.showMessage(f"ОШИБКА: {message}", 10000)
@@ -391,7 +391,7 @@ class MainWindow(QMainWindow):
             response = self.api.stop_generation()
             if response.status_code == 200:
                 self.is_generation_active = False
-                self.update_ui_state()
+                self._update_ui_state()
                 self.logger.info("Генерация остановлена при завершении работы")
 
         if hasattr(self, 'signalr') and self.signalr_connected:
