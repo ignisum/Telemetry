@@ -1,6 +1,7 @@
 import psycopg2
 from typing import Optional, Dict, Any, List
 from models import Session, TelemetryPacket
+import logging
 
 
 class PostgresManager:
@@ -21,7 +22,7 @@ class PostgresManager:
 
     def get_packet(self, packet_id: int) -> Optional[TelemetryPacket]:
         self.cursor.execute(
-            "SELECT id, packet_counter, timestamp, payload, crc16, session_id FROM Packets WHERE id = %s",
+            "SELECT id, packet_counter, timestamp, payload, crc16, session_id FROM public.Packets WHERE id = %s",
             (packet_id,)
         )
         if data := self.cursor.fetchone():
@@ -36,7 +37,7 @@ class PostgresManager:
         return None
     def create_session(self, name: str) -> Session:
         self.cursor.execute(
-           """ "INSERT INTO "Sessions" (name) VALUES (%s) RETURNING id, startTime",
+           """ "INSERT INTO public."Sessions" (name) VALUES (%s) RETURNING id, startTime",
             name """
         )
         session_id, start_time = self.cursor.fetchone()
@@ -47,7 +48,7 @@ class PostgresManager:
         try:
             self.cursor.execute("""
                 SELECT "Id", "Name", "StartTime", "EndTime"
-                FROM "Sessions"
+                FROM public."Sessions"
                 ORDER BY "StartTime" DESC
                 """)
             sessions = []
@@ -95,3 +96,18 @@ class PostgresManager:
         except Exception as e:
             print(f"Ошибка БД get_session_packets: {str(e)}")
             return []
+
+    def close(self):
+        try:
+            if hasattr(self, 'cursor') and self.cursor:
+                print("Соединение с БД закрыто")
+                self.cursor.close()
+        except Exception as e:
+            logging.error(f"Ошибка закрытия курсора: {e}")
+
+        try:
+            if hasattr(self, 'conn') and self.conn:
+                if not self.conn.closed:
+                    self.conn.close()
+        except Exception as e:
+            logging.error(f"Ошибка закрытия соединения: {e}")

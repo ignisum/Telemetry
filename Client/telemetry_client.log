@@ -1,0 +1,975 @@
+2025-05-25 02:19:54,054 - INFO - DB connection established
+2025-05-25 02:19:54,056 - INFO - DB connection established
+2025-05-25 02:19:57,776 - INFO - Attempting to connect to server
+2025-05-25 02:19:57,788 - INFO - DB connection established
+2025-05-25 02:19:57,789 - INFO - Successfully connected to server
+2025-05-25 02:20:01,985 - INFO - DB connection established
+2025-05-25 02:20:01,985 - INFO - Generation started for session 14
+2025-05-25 02:20:20,900 - INFO - DB connection established
+2025-05-25 02:20:20,900 - INFO - Generation stopped
+2025-05-25 02:20:23,036 - INFO - Refreshed sessions list, count: 14
+2025-05-25 02:20:25,566 - INFO - Loaded 10 packets for session 14
+2025-05-25 02:20:30,338 - INFO - DB connection established
+2025-05-25 02:20:30,339 - INFO - Disconnected from server during shutdown
+2025-05-25 02:20:30,339 - INFO - Disconnected from server
+2025-05-25 02:20:30,339 - WARNING - Warning: Соединение с сервером закрыто
+2025-05-25 02:20:30,339 - INFO - DB connection closed during shutdown
+2025-05-25 02:20:30,340 - INFO - Application shutdown completed
+2025-05-25 20:12:07,346 - INFO - DB connection established
+2025-05-25 20:12:07,349 - INFO - DB connection established
+2025-05-25 20:12:11,867 - INFO - Refreshed sessions list, count: 14
+2025-05-25 20:12:14,088 - INFO - Loaded 10 packets for session 14
+2025-05-25 20:12:19,333 - INFO - DB connection closed during shutdown
+2025-05-25 20:12:19,333 - INFO - Application shutdown completed
+2025-05-25 20:43:12,695 - INFO - DB connection established
+2025-05-25 20:43:12,696 - INFO - DB connection established
+2025-05-25 20:43:17,679 - ERROR - Connection error: HTTPConnectionPool(host='localhost', port=15233): Max retries exceeded with url: /telemetryhub/negotiate (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000002EBD18ED520>: Failed to establish a new connection: [WinError 10061] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение'))
+2025-05-25 20:43:21,752 - INFO - Refreshed sessions list, count: 14
+2025-05-25 20:43:22,207 - INFO - Загружено 10 пакетов для сессии 14
+2025-05-25 20:43:23,719 - INFO - Загружено 4 пакетов для сессии 13
+2025-05-25 20:43:24,183 - INFO - Загружено 4 пакетов для сессии 12
+2025-05-25 20:43:24,553 - INFO - Загружено 5 пакетов для сессии 11
+2025-05-25 20:43:25,623 - INFO - DB connection closed during shutdown
+2025-05-25 20:43:25,623 - INFO - Application shutdown completed
+2025-05-25 20:43:43,822 - INFO - DB connection established
+2025-05-25 20:43:43,823 - INFO - DB connection established
+2025-05-25 20:43:44,560 - INFO - Attempting to connect to server
+2025-05-25 20:43:44,607 - INFO - DB connection established
+2025-05-25 20:43:44,607 - INFO - Successfully connected to server
+2025-05-25 20:43:45,412 - INFO - DB connection established
+2025-05-25 20:43:45,412 - INFO - Generation started for session 15
+2025-05-25 20:43:53,467 - INFO - DB connection established
+2025-05-25 20:43:53,468 - INFO - Generation stopped
+2025-05-25 20:43:58,418 - ERROR - Traceback (most recent call last):
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 362, in run_forever
+    dispatcher.read(self.sock.sock, read, check)
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 54, in read
+    if not read_callback():
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 328, in read
+    op_code, frame = self.sock.recv_data_frame(True)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 396, in recv_data_frame
+    frame = self.recv_frame()
+            ^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 435, in recv_frame
+    return self.frame_buffer.recv_frame()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 350, in recv_frame
+    self.recv_header()
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 306, in recv_header
+    header = self.recv_strict(2)
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 385, in recv_strict
+    bytes_ = self.recv(min(16384, shortage))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 521, in _recv
+    return recv(self.sock, bufsize)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_socket.py", line 115, in recv
+    bytes_ = _recv()
+             ^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+
+2025-05-25 20:43:58,418 - ERROR - <signalrcore.transport.websockets.websocket_transport.WebsocketTransport object at 0x00000210070FC170> [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2025-05-25 20:43:58,418 - ERROR - [WinError 10054] Удаленный хост принудительно разорвал существующее подключение <class 'ConnectionResetError'>
+2025-05-25 20:43:58,419 - INFO - DB connection established
+2025-05-25 20:43:58,420 - INFO - Disconnected from server
+2025-05-25 20:43:58,421 - WARNING - Warning: Соединение с сервером закрыто
+2025-05-25 20:43:58,421 - INFO - DB connection established
+2025-05-25 20:43:58,421 - INFO - Disconnected from server
+2025-05-25 20:43:58,422 - WARNING - Warning: Соединение с сервером закрыто
+2025-05-25 20:44:04,632 - WARNING - Connection closed Connection is already closed.
+2025-05-25 20:44:04,632 - INFO - on_reconnect not defined
+2025-05-25 20:44:08,700 - ERROR - HTTPConnectionPool(host='localhost', port=15233): Max retries exceeded with url: /telemetryhub/negotiate?id=F6e4DDKr49kjVe7iUkiEsw (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000210070FEB70>: Failed to establish a new connection: [WinError 10061] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение'))
+2025-05-25 20:44:14,876 - INFO - DB connection closed during shutdown
+2025-05-25 20:44:14,876 - INFO - Application shutdown completed
+2025-05-25 20:44:49,965 - INFO - DB connection established
+2025-05-25 20:44:49,967 - INFO - DB connection established
+2025-05-25 20:44:51,405 - INFO - Attempting to connect to server
+2025-05-25 20:44:51,435 - INFO - DB connection established
+2025-05-25 20:44:51,435 - INFO - Successfully connected to server
+2025-05-25 20:44:52,232 - INFO - DB connection established
+2025-05-25 20:44:52,232 - INFO - Generation started for session 16
+2025-05-25 20:45:02,220 - INFO - DB connection established
+2025-05-25 20:45:02,220 - INFO - Generation stopped
+2025-05-25 20:45:05,130 - INFO - Refreshed sessions list, count: 16
+2025-05-25 20:45:05,379 - INFO - Загружено 5 пакетов для сессии 16
+2025-05-25 20:45:06,172 - INFO - Загружено 4 пакетов для сессии 15
+2025-05-25 20:45:06,537 - INFO - Загружено 5 пакетов для сессии 16
+2025-05-25 20:45:07,112 - INFO - Загружено 4 пакетов для сессии 15
+2025-05-25 20:45:07,477 - INFO - Загружено 5 пакетов для сессии 16
+2025-05-25 20:45:27,577 - INFO - DB connection established
+2025-05-25 20:45:27,577 - INFO - Disconnected from server
+2025-05-25 20:45:27,577 - WARNING - Warning: Соединение с сервером закрыто
+2025-05-25 20:45:27,577 - INFO - Disconnected from server during shutdown
+2025-05-25 20:45:27,578 - INFO - DB connection closed during shutdown
+2025-05-25 20:45:27,578 - INFO - Application shutdown completed
+2025-05-26 13:47:27,414 - INFO - Подключение к БД установлено
+2025-05-26 13:47:27,417 - INFO - Подключение к БД установлено
+2025-05-26 13:47:39,828 - INFO - Список сессий обновлен, количество: 16
+2025-05-26 13:47:41,780 - INFO - Загружено 5 пакетов для сессии 16
+2025-05-26 13:47:46,703 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 13:47:46,703 - INFO - Завершение работы приложения
+2025-05-26 13:47:57,848 - INFO - Подключение к БД установлено
+2025-05-26 13:47:57,850 - INFO - Подключение к БД установлено
+2025-05-26 13:48:00,568 - INFO - Список сессий обновлен, количество: 16
+2025-05-26 13:48:03,100 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 13:48:03,100 - INFO - Завершение работы приложения
+2025-05-26 13:56:55,099 - INFO - Подключение к БД установлено
+2025-05-26 13:56:55,100 - INFO - Подключение к БД установлено
+2025-05-26 13:56:57,840 - INFO - Попытка подключения к серверу
+2025-05-26 13:56:57,874 - INFO - Подключение к БД установлено
+2025-05-26 13:56:57,874 - INFO - Успешное подключение к серверу
+2025-05-26 13:56:59,986 - INFO - Подключение к БД установлено
+2025-05-26 13:56:59,986 - INFO - Генерация запущена для сессии 17
+2025-05-26 13:57:05,872 - INFO - Подключение к БД установлено
+2025-05-26 13:57:05,872 - INFO - Генерация остановлена при завершении работы
+2025-05-26 13:57:05,876 - INFO - Подключение к БД установлено
+2025-05-26 13:57:05,876 - INFO - Отключено от сервера
+2025-05-26 13:57:05,877 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 13:57:05,877 - INFO - Отключено от сервера при завершении работы
+2025-05-26 13:57:05,877 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 13:57:05,877 - INFO - Завершение работы приложения
+2025-05-26 13:57:21,486 - INFO - Подключение к БД установлено
+2025-05-26 13:57:21,487 - INFO - Подключение к БД установлено
+2025-05-26 13:57:25,118 - INFO - Список сессий обновлен, количество: 17
+2025-05-26 13:57:27,099 - INFO - Попытка подключения к серверу
+2025-05-26 13:57:27,133 - INFO - Подключение к БД установлено
+2025-05-26 13:57:27,133 - INFO - Успешное подключение к серверу
+2025-05-26 13:57:27,662 - INFO - Подключение к БД установлено
+2025-05-26 13:57:27,662 - INFO - Генерация запущена для сессии 18
+2025-05-26 13:57:33,741 - INFO - Подключение к БД установлено
+2025-05-26 13:57:33,741 - INFO - Генерация остановлена при завершении работы
+2025-05-26 13:57:33,743 - INFO - Подключение к БД установлено
+2025-05-26 13:57:33,744 - INFO - Отключено от сервера
+2025-05-26 13:57:33,744 - INFO - Отключено от сервера при завершении работы
+2025-05-26 13:57:33,744 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 13:57:33,744 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 13:57:33,745 - INFO - Завершение работы приложения
+2025-05-26 18:16:30,864 - INFO - Подключение к БД установлено
+2025-05-26 18:16:30,869 - INFO - Подключение к БД установлено
+2025-05-26 18:16:38,274 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 18:16:38,274 - INFO - Завершение работы приложения
+2025-05-26 18:36:50,267 - INFO - Подключение к БД установлено
+2025-05-26 18:36:50,268 - INFO - Подключение к БД установлено
+2025-05-26 18:36:53,138 - INFO - Попытка подключения к серверу
+2025-05-26 18:36:53,189 - INFO - Подключение к БД установлено
+2025-05-26 18:36:53,189 - INFO - Успешное подключение к серверу
+2025-05-26 18:37:06,934 - INFO - Подключение к БД установлено
+2025-05-26 18:37:06,935 - INFO - Отключено от сервера
+2025-05-26 18:37:06,935 - INFO - Отключено от сервера при завершении работы
+2025-05-26 18:37:06,935 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 18:37:06,936 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 18:37:06,936 - INFO - Завершение работы приложения
+2025-05-26 18:37:26,057 - INFO - Подключение к БД установлено
+2025-05-26 18:37:26,058 - INFO - Подключение к БД установлено
+2025-05-26 18:37:27,502 - INFO - Попытка подключения к серверу
+2025-05-26 18:37:27,540 - INFO - Подключение к БД установлено
+2025-05-26 18:37:27,540 - INFO - Успешное подключение к серверу
+2025-05-26 18:38:10,726 - ERROR - Traceback (most recent call last):
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 362, in run_forever
+    dispatcher.read(self.sock.sock, read, check)
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 54, in read
+    if not read_callback():
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 328, in read
+    op_code, frame = self.sock.recv_data_frame(True)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 396, in recv_data_frame
+    frame = self.recv_frame()
+            ^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 435, in recv_frame
+    return self.frame_buffer.recv_frame()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 350, in recv_frame
+    self.recv_header()
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 306, in recv_header
+    header = self.recv_strict(2)
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 385, in recv_strict
+    bytes_ = self.recv(min(16384, shortage))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 521, in _recv
+    return recv(self.sock, bufsize)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_socket.py", line 115, in recv
+    bytes_ = _recv()
+             ^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+
+2025-05-26 18:38:10,726 - ERROR - <signalrcore.transport.websockets.websocket_transport.WebsocketTransport object at 0x0000021555428170> [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2025-05-26 18:38:10,726 - ERROR - [WinError 10054] Удаленный хост принудительно разорвал существующее подключение <class 'ConnectionResetError'>
+2025-05-26 18:38:10,726 - INFO - Подключение к БД установлено
+2025-05-26 18:38:10,726 - INFO - Отключено от сервера
+2025-05-26 18:38:10,727 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 18:38:10,727 - INFO - Подключение к БД установлено
+2025-05-26 18:38:10,727 - INFO - Отключено от сервера
+2025-05-26 18:38:10,727 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 18:38:17,565 - WARNING - Connection closed Connection is already closed.
+2025-05-26 18:38:17,565 - INFO - on_reconnect not defined
+2025-05-26 18:38:21,647 - ERROR - HTTPConnectionPool(host='localhost', port=15233): Max retries exceeded with url: /telemetryhub/negotiate?id=vUQu36l5GZNg1G_QvKE9hA (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000002155542A780>: Failed to establish a new connection: [WinError 10061] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение'))
+2025-05-26 18:50:03,434 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 18:50:03,434 - INFO - Завершение работы приложения
+2025-05-26 18:52:33,123 - INFO - Подключение к БД установлено
+2025-05-26 18:52:33,124 - INFO - Подключение к БД установлено
+2025-05-26 18:52:34,196 - INFO - Попытка подключения к серверу
+2025-05-26 18:52:34,247 - INFO - Подключение к БД установлено
+2025-05-26 18:52:34,248 - INFO - Успешное подключение к серверу
+2025-05-26 18:52:39,107 - INFO - Подключение к БД установлено
+2025-05-26 18:52:39,108 - INFO - Отключено от сервера
+2025-05-26 18:52:39,108 - INFO - Отключено от сервера при завершении работы
+2025-05-26 18:52:39,108 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 18:52:39,108 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 18:52:39,108 - INFO - Завершение работы приложения
+2025-05-26 18:53:21,345 - INFO - Подключение к БД установлено
+2025-05-26 18:53:21,346 - INFO - Подключение к БД установлено
+2025-05-26 18:53:22,370 - INFO - Попытка подключения к серверу
+2025-05-26 18:53:22,378 - INFO - Подключение к БД установлено
+2025-05-26 18:53:22,379 - INFO - Успешное подключение к серверу
+2025-05-26 18:53:25,529 - INFO - Подключение к БД установлено
+2025-05-26 18:53:25,529 - INFO - Отключено от сервера при завершении работы
+2025-05-26 18:53:25,529 - INFO - Отключено от сервера
+2025-05-26 18:53:25,530 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 18:53:25,530 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 18:53:25,530 - INFO - Завершение работы приложения
+2025-05-26 19:04:37,994 - INFO - Подключение к БД установлено
+2025-05-26 19:04:37,995 - INFO - Подключение к БД установлено
+2025-05-26 19:04:38,940 - INFO - Попытка подключения к серверу
+2025-05-26 19:04:38,948 - INFO - Подключение к БД установлено
+2025-05-26 19:04:38,949 - INFO - Успешное подключение к серверу
+2025-05-26 19:04:41,799 - INFO - Подключение к БД установлено
+2025-05-26 19:04:41,800 - INFO - Отключено от сервера
+2025-05-26 19:04:41,800 - INFO - Отключено от сервера при завершении работы
+2025-05-26 19:04:41,800 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 19:04:41,800 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 19:04:41,800 - INFO - Завершение работы приложения
+2025-05-26 19:31:48,137 - INFO - Подключение к БД установлено
+2025-05-26 19:31:48,138 - INFO - Подключение к БД установлено
+2025-05-26 19:31:50,945 - ERROR - Ошибка подключения: 404
+2025-05-26 19:31:55,445 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 19:31:55,446 - INFO - Завершение работы приложения
+2025-05-26 19:33:46,928 - INFO - Подключение к БД установлено
+2025-05-26 19:33:46,929 - INFO - Подключение к БД установлено
+2025-05-26 19:33:48,406 - INFO - Попытка подключения к серверу
+2025-05-26 19:33:48,429 - INFO - Подключение к БД установлено
+2025-05-26 19:33:48,429 - INFO - Успешное подключение к серверу
+2025-05-26 19:33:51,755 - INFO - Подключение к БД установлено
+2025-05-26 19:33:51,755 - INFO - Отключено от сервера
+2025-05-26 19:33:51,755 - INFO - Отключено от сервера при завершении работы
+2025-05-26 19:33:51,756 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 19:33:51,756 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 19:33:51,756 - INFO - Завершение работы приложения
+2025-05-26 19:35:51,636 - INFO - Подключение к БД установлено
+2025-05-26 19:35:51,637 - INFO - Подключение к БД установлено
+2025-05-26 19:35:52,762 - INFO - Попытка подключения к серверу
+2025-05-26 19:35:52,799 - INFO - Подключение к БД установлено
+2025-05-26 19:35:52,799 - INFO - Успешное подключение к серверу
+2025-05-26 19:35:59,311 - INFO - Подключение к БД установлено
+2025-05-26 19:35:59,311 - INFO - Отключено от сервера
+2025-05-26 19:35:59,311 - INFO - Отключено от сервера при завершении работы
+2025-05-26 19:35:59,312 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 19:35:59,312 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 19:35:59,312 - INFO - Завершение работы приложения
+2025-05-26 19:36:29,710 - INFO - Подключение к БД установлено
+2025-05-26 19:36:29,712 - INFO - Подключение к БД установлено
+2025-05-26 19:36:30,565 - INFO - Попытка подключения к серверу
+2025-05-26 19:36:30,570 - INFO - Подключение к БД установлено
+2025-05-26 19:36:30,570 - INFO - Успешное подключение к серверу
+2025-05-26 19:36:32,993 - INFO - Подключение к БД установлено
+2025-05-26 19:36:32,993 - INFO - Отключено от сервера
+2025-05-26 19:36:32,994 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 19:36:32,994 - INFO - Отключено от сервера при завершении работы
+2025-05-26 19:36:32,994 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 19:36:32,994 - INFO - Завершение работы приложения
+2025-05-26 19:37:32,252 - INFO - Подключение к БД установлено
+2025-05-26 19:37:32,254 - INFO - Подключение к БД установлено
+2025-05-26 19:37:34,692 - INFO - Попытка подключения к серверу
+2025-05-26 19:37:34,731 - INFO - Подключение к БД установлено
+2025-05-26 19:37:34,731 - INFO - Успешное подключение к серверу
+2025-05-26 19:37:39,869 - INFO - Подключение к БД установлено
+2025-05-26 19:37:39,869 - INFO - Отключено от сервера
+2025-05-26 19:37:39,870 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 19:37:39,870 - INFO - Отключено от сервера при завершении работы
+2025-05-26 19:37:39,870 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 19:37:39,870 - INFO - Завершение работы приложения
+2025-05-26 19:38:24,996 - INFO - Подключение к БД установлено
+2025-05-26 19:38:24,997 - INFO - Подключение к БД установлено
+2025-05-26 19:38:25,841 - INFO - Попытка подключения к серверу
+2025-05-26 19:38:25,881 - INFO - Подключение к БД установлено
+2025-05-26 19:38:25,881 - INFO - Успешное подключение к серверу
+2025-05-26 19:38:27,892 - INFO - Подключение к БД установлено
+2025-05-26 19:38:27,892 - INFO - Отключено от сервера
+2025-05-26 19:38:27,893 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 19:38:27,893 - INFO - Отключено от сервера при завершении работы
+2025-05-26 19:38:27,893 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 19:38:27,893 - INFO - Завершение работы приложения
+2025-05-26 19:39:28,655 - INFO - Подключение к БД установлено
+2025-05-26 19:39:28,656 - INFO - Подключение к БД установлено
+2025-05-26 19:39:29,581 - INFO - Попытка подключения к серверу
+2025-05-26 19:39:29,618 - INFO - Подключение к БД установлено
+2025-05-26 19:39:29,618 - INFO - Успешное подключение к серверу
+2025-05-26 19:39:45,282 - INFO - Подключение к БД установлено
+2025-05-26 19:39:45,282 - INFO - Отключено от сервера
+2025-05-26 19:39:45,282 - INFO - Отключено от сервера при завершении работы
+2025-05-26 19:39:45,282 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 19:39:45,283 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 19:39:45,283 - INFO - Завершение работы приложения
+2025-05-26 19:40:47,285 - INFO - Подключение к БД установлено
+2025-05-26 19:40:47,287 - INFO - Подключение к БД установлено
+2025-05-26 19:40:48,048 - INFO - Попытка подключения к серверу
+2025-05-26 19:40:48,081 - INFO - Подключение к БД установлено
+2025-05-26 19:40:48,081 - INFO - Успешное подключение к серверу
+2025-05-26 19:40:49,279 - INFO - Подключение к БД установлено
+2025-05-26 19:40:49,279 - INFO - Генерация запущена для сессии 1
+2025-05-26 19:41:43,003 - ERROR - Traceback (most recent call last):
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 362, in run_forever
+    dispatcher.read(self.sock.sock, read, check)
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 54, in read
+    if not read_callback():
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 328, in read
+    op_code, frame = self.sock.recv_data_frame(True)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 396, in recv_data_frame
+    frame = self.recv_frame()
+            ^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 435, in recv_frame
+    return self.frame_buffer.recv_frame()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 350, in recv_frame
+    self.recv_header()
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 306, in recv_header
+    header = self.recv_strict(2)
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 385, in recv_strict
+    bytes_ = self.recv(min(16384, shortage))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 521, in _recv
+    return recv(self.sock, bufsize)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_socket.py", line 115, in recv
+    bytes_ = _recv()
+             ^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+
+2025-05-26 19:41:43,004 - ERROR - <signalrcore.transport.websockets.websocket_transport.WebsocketTransport object at 0x000001C498548170> [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2025-05-26 19:41:43,004 - ERROR - [WinError 10054] Удаленный хост принудительно разорвал существующее подключение <class 'ConnectionResetError'>
+2025-05-26 19:41:43,004 - INFO - Подключение к БД установлено
+2025-05-26 19:41:43,004 - INFO - Отключено от сервера
+2025-05-26 19:41:43,005 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 19:41:43,005 - INFO - Подключение к БД установлено
+2025-05-26 19:41:43,005 - INFO - Отключено от сервера
+2025-05-26 19:41:43,006 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 19:41:48,107 - WARNING - Connection closed Connection is already closed.
+2025-05-26 19:41:48,107 - INFO - on_reconnect not defined
+2025-05-26 19:41:52,189 - ERROR - HTTPConnectionPool(host='localhost', port=15233): Max retries exceeded with url: /telemetryhub/negotiate?id=l8AGuTPJJKSLezL8V5c4uw (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001C49854A780>: Failed to establish a new connection: [WinError 10061] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение'))
+2025-05-26 19:43:52,208 - INFO - Подключение к БД установлено
+2025-05-26 19:43:52,209 - INFO - Подключение к БД установлено
+2025-05-26 19:43:53,540 - INFO - Попытка подключения к серверу
+2025-05-26 19:43:53,577 - INFO - Подключение к БД установлено
+2025-05-26 19:43:53,577 - INFO - Успешное подключение к серверу
+2025-05-26 19:43:59,143 - INFO - Подключение к БД установлено
+2025-05-26 19:43:59,143 - INFO - Отключено от сервера
+2025-05-26 19:43:59,144 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 19:43:59,144 - INFO - Отключено от сервера при завершении работы
+2025-05-26 19:43:59,144 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 19:43:59,144 - INFO - Завершение работы приложения
+2025-05-26 19:46:28,713 - INFO - Подключение к БД установлено
+2025-05-26 19:46:28,714 - INFO - Подключение к БД установлено
+2025-05-26 19:46:29,943 - INFO - Попытка подключения к серверу
+2025-05-26 19:46:29,982 - INFO - Подключение к БД установлено
+2025-05-26 19:46:29,982 - INFO - Успешное подключение к серверу
+2025-05-26 19:46:31,766 - INFO - Подключение к БД установлено
+2025-05-26 19:46:31,767 - INFO - Генерация запущена для сессии 2
+2025-05-26 19:47:04,159 - ERROR - Traceback (most recent call last):
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 362, in run_forever
+    dispatcher.read(self.sock.sock, read, check)
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 54, in read
+    if not read_callback():
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 328, in read
+    op_code, frame = self.sock.recv_data_frame(True)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 396, in recv_data_frame
+    frame = self.recv_frame()
+            ^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 435, in recv_frame
+    return self.frame_buffer.recv_frame()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 350, in recv_frame
+    self.recv_header()
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 306, in recv_header
+    header = self.recv_strict(2)
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 385, in recv_strict
+    bytes_ = self.recv(min(16384, shortage))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 521, in _recv
+    return recv(self.sock, bufsize)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_socket.py", line 115, in recv
+    bytes_ = _recv()
+             ^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+
+2025-05-26 19:47:04,159 - ERROR - <signalrcore.transport.websockets.websocket_transport.WebsocketTransport object at 0x0000020E23DE8170> [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2025-05-26 19:47:04,159 - ERROR - [WinError 10054] Удаленный хост принудительно разорвал существующее подключение <class 'ConnectionResetError'>
+2025-05-26 19:47:04,159 - INFO - Подключение к БД установлено
+2025-05-26 19:47:04,159 - INFO - Отключено от сервера
+2025-05-26 19:47:04,159 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 19:47:04,160 - INFO - Подключение к БД установлено
+2025-05-26 19:47:04,160 - INFO - Отключено от сервера
+2025-05-26 19:47:04,160 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 19:47:07,440 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 19:47:07,440 - INFO - Завершение работы приложения
+2025-05-26 19:48:59,847 - INFO - Подключение к БД установлено
+2025-05-26 19:48:59,849 - INFO - Подключение к БД установлено
+2025-05-26 19:49:00,745 - INFO - Попытка подключения к серверу
+2025-05-26 19:49:00,798 - INFO - Подключение к БД установлено
+2025-05-26 19:49:00,798 - INFO - Успешное подключение к серверу
+2025-05-26 19:49:02,049 - INFO - Подключение к БД установлено
+2025-05-26 19:49:02,050 - INFO - Генерация запущена для сессии 3
+2025-05-26 19:49:07,324 - INFO - Подключение к БД установлено
+2025-05-26 19:49:07,325 - INFO - Генерация остановлена
+2025-05-26 19:49:09,243 - INFO - Подключение к БД установлено
+2025-05-26 19:49:09,243 - INFO - Генерация запущена для сессии 4
+2025-05-26 19:49:12,807 - INFO - Подключение к БД установлено
+2025-05-26 19:49:12,807 - INFO - Генерация остановлена
+2025-05-26 19:49:13,889 - INFO - Подключение к БД установлено
+2025-05-26 19:49:13,889 - INFO - Отключено от сервера при завершении работы
+2025-05-26 19:49:13,889 - INFO - Отключено от сервера
+2025-05-26 19:49:13,889 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 19:49:13,890 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 19:49:13,890 - INFO - Завершение работы приложения
+2025-05-26 19:51:26,254 - INFO - Подключение к БД установлено
+2025-05-26 19:51:26,255 - INFO - Подключение к БД установлено
+2025-05-26 19:51:27,138 - INFO - Попытка подключения к серверу
+2025-05-26 19:51:27,176 - INFO - Подключение к БД установлено
+2025-05-26 19:51:27,176 - INFO - Успешное подключение к серверу
+2025-05-26 19:51:28,104 - INFO - Подключение к БД установлено
+2025-05-26 19:51:28,104 - INFO - Генерация запущена для сессии 5
+2025-05-26 19:51:32,719 - INFO - Подключение к БД установлено
+2025-05-26 19:51:32,719 - INFO - Генерация остановлена
+2025-05-26 19:51:39,608 - ERROR - Traceback (most recent call last):
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 362, in run_forever
+    dispatcher.read(self.sock.sock, read, check)
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 54, in read
+    if not read_callback():
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 328, in read
+    op_code, frame = self.sock.recv_data_frame(True)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 396, in recv_data_frame
+    frame = self.recv_frame()
+            ^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 435, in recv_frame
+    return self.frame_buffer.recv_frame()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 350, in recv_frame
+    self.recv_header()
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 306, in recv_header
+    header = self.recv_strict(2)
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 385, in recv_strict
+    bytes_ = self.recv(min(16384, shortage))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 521, in _recv
+    return recv(self.sock, bufsize)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_socket.py", line 115, in recv
+    bytes_ = _recv()
+             ^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+
+2025-05-26 19:51:39,609 - ERROR - <signalrcore.transport.websockets.websocket_transport.WebsocketTransport object at 0x00000205D1418170> [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2025-05-26 19:51:39,609 - ERROR - [WinError 10054] Удаленный хост принудительно разорвал существующее подключение <class 'ConnectionResetError'>
+2025-05-26 19:51:39,609 - INFO - Подключение к БД установлено
+2025-05-26 19:51:39,609 - INFO - Отключено от сервера
+2025-05-26 19:51:39,609 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 19:51:39,610 - INFO - Подключение к БД установлено
+2025-05-26 19:51:39,610 - INFO - Отключено от сервера
+2025-05-26 19:51:39,610 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 19:51:47,187 - WARNING - Connection closed Connection is already closed.
+2025-05-26 19:51:47,187 - INFO - on_reconnect not defined
+2025-05-26 19:51:51,249 - ERROR - HTTPConnectionPool(host='localhost', port=15233): Max retries exceeded with url: /telemetryhub/negotiate?id=muwIahfd8yJM73D0E786YQ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000205D141A810>: Failed to establish a new connection: [WinError 10061] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение'))
+2025-05-26 19:52:57,685 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 19:52:57,685 - INFO - Завершение работы приложения
+2025-05-26 19:52:58,888 - INFO - Подключение к БД установлено
+2025-05-26 19:52:58,889 - INFO - Подключение к БД установлено
+2025-05-26 19:53:00,499 - INFO - Попытка подключения к серверу
+2025-05-26 19:53:00,537 - INFO - Подключение к БД установлено
+2025-05-26 19:53:00,537 - INFO - Успешное подключение к серверу
+2025-05-26 19:53:01,919 - INFO - Подключение к БД установлено
+2025-05-26 19:53:01,919 - INFO - Генерация запущена для сессии 6
+2025-05-26 19:53:08,931 - INFO - Подключение к БД установлено
+2025-05-26 19:53:08,931 - INFO - Генерация остановлена при завершении работы
+2025-05-26 19:53:08,935 - INFO - Подключение к БД установлено
+2025-05-26 19:53:08,935 - INFO - Отключено от сервера
+2025-05-26 19:53:08,935 - INFO - Отключено от сервера при завершении работы
+2025-05-26 19:53:08,935 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 19:53:08,936 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 19:53:08,936 - INFO - Завершение работы приложения
+2025-05-26 20:16:28,639 - INFO - Подключение к БД установлено
+2025-05-26 20:16:28,641 - INFO - Подключение к БД установлено
+2025-05-26 20:16:29,902 - INFO - Попытка подключения к серверу
+2025-05-26 20:16:29,939 - INFO - Подключение к БД установлено
+2025-05-26 20:16:29,939 - INFO - Успешное подключение к серверу
+2025-05-26 20:16:31,412 - INFO - Подключение к БД установлено
+2025-05-26 20:16:31,412 - INFO - Генерация запущена для сессии 7
+2025-05-26 20:17:09,875 - ERROR - Traceback (most recent call last):
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 362, in run_forever
+    dispatcher.read(self.sock.sock, read, check)
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 54, in read
+    if not read_callback():
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 328, in read
+    op_code, frame = self.sock.recv_data_frame(True)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 396, in recv_data_frame
+    frame = self.recv_frame()
+            ^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 435, in recv_frame
+    return self.frame_buffer.recv_frame()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 350, in recv_frame
+    self.recv_header()
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 306, in recv_header
+    header = self.recv_strict(2)
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 385, in recv_strict
+    bytes_ = self.recv(min(16384, shortage))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 521, in _recv
+    return recv(self.sock, bufsize)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_socket.py", line 115, in recv
+    bytes_ = _recv()
+             ^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+
+2025-05-26 20:17:09,875 - ERROR - <signalrcore.transport.websockets.websocket_transport.WebsocketTransport object at 0x0000022104E38170> [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2025-05-26 20:17:09,875 - ERROR - [WinError 10054] Удаленный хост принудительно разорвал существующее подключение <class 'ConnectionResetError'>
+2025-05-26 20:17:09,875 - INFO - Подключение к БД установлено
+2025-05-26 20:17:09,875 - INFO - Отключено от сервера
+2025-05-26 20:17:09,876 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 20:17:09,876 - INFO - Подключение к БД установлено
+2025-05-26 20:17:09,876 - INFO - Отключено от сервера
+2025-05-26 20:17:09,876 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 20:17:09,978 - WARNING - Connection closed Connection is already closed.
+2025-05-26 20:17:09,978 - INFO - on_reconnect not defined
+2025-05-26 20:17:10,741 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 20:17:10,741 - INFO - Завершение работы приложения
+2025-05-26 20:18:31,142 - INFO - Подключение к БД установлено
+2025-05-26 20:18:31,145 - INFO - Подключение к БД установлено
+2025-05-26 20:18:32,276 - INFO - Попытка подключения к серверу
+2025-05-26 20:18:32,311 - INFO - Подключение к БД установлено
+2025-05-26 20:18:32,311 - INFO - Успешное подключение к серверу
+2025-05-26 20:19:01,487 - ERROR - Traceback (most recent call last):
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 362, in run_forever
+    dispatcher.read(self.sock.sock, read, check)
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 54, in read
+    if not read_callback():
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 328, in read
+    op_code, frame = self.sock.recv_data_frame(True)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 396, in recv_data_frame
+    frame = self.recv_frame()
+            ^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 435, in recv_frame
+    return self.frame_buffer.recv_frame()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 350, in recv_frame
+    self.recv_header()
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 306, in recv_header
+    header = self.recv_strict(2)
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 385, in recv_strict
+    bytes_ = self.recv(min(16384, shortage))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 521, in _recv
+    return recv(self.sock, bufsize)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_socket.py", line 115, in recv
+    bytes_ = _recv()
+             ^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+
+2025-05-26 20:19:01,487 - ERROR - <signalrcore.transport.websockets.websocket_transport.WebsocketTransport object at 0x000001F25EE18170> [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2025-05-26 20:19:01,487 - ERROR - [WinError 10054] Удаленный хост принудительно разорвал существующее подключение <class 'ConnectionResetError'>
+2025-05-26 20:19:01,488 - INFO - Подключение к БД установлено
+2025-05-26 20:19:01,488 - INFO - Отключено от сервера
+2025-05-26 20:19:01,488 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 20:19:01,488 - INFO - Подключение к БД установлено
+2025-05-26 20:19:01,488 - INFO - Отключено от сервера
+2025-05-26 20:19:01,488 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 20:19:02,342 - WARNING - Connection closed Connection is already closed.
+2025-05-26 20:19:02,342 - INFO - on_reconnect not defined
+2025-05-26 20:19:06,441 - ERROR - HTTPConnectionPool(host='localhost', port=15233): Max retries exceeded with url: /telemetryhub/negotiate?id=9GgrFkf3qGAh3-e8Wf0IOg (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001F25EE1AB70>: Failed to establish a new connection: [WinError 10061] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение'))
+2025-05-26 20:22:06,387 - INFO - Попытка подключения к серверу
+2025-05-26 20:22:06,424 - INFO - Подключение к БД установлено
+2025-05-26 20:22:06,424 - INFO - Успешное подключение к серверу
+2025-05-26 20:22:07,351 - INFO - Подключение к БД установлено
+2025-05-26 20:22:07,352 - INFO - Генерация запущена для сессии 1
+2025-05-26 20:23:22,820 - INFO - Подключение к БД установлено
+2025-05-26 20:23:22,820 - INFO - Генерация остановлена при завершении работы
+2025-05-26 20:23:22,829 - INFO - Подключение к БД установлено
+2025-05-26 20:23:22,829 - INFO - Отключено от сервера
+2025-05-26 20:23:22,829 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 20:23:22,829 - INFO - Отключено от сервера при завершении работы
+2025-05-26 20:23:22,830 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 20:23:22,830 - INFO - Завершение работы приложения
+2025-05-26 20:23:24,322 - INFO - Подключение к БД установлено
+2025-05-26 20:23:24,325 - INFO - Подключение к БД установлено
+2025-05-26 20:23:26,333 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 20:23:26,333 - INFO - Завершение работы приложения
+2025-05-26 20:24:23,080 - INFO - Подключение к БД установлено
+2025-05-26 20:24:23,081 - INFO - Подключение к БД установлено
+2025-05-26 20:24:24,240 - INFO - Попытка подключения к серверу
+2025-05-26 20:24:24,276 - INFO - Подключение к БД установлено
+2025-05-26 20:24:24,276 - INFO - Успешное подключение к серверу
+2025-05-26 20:24:25,468 - INFO - Подключение к БД установлено
+2025-05-26 20:24:25,468 - INFO - Генерация запущена для сессии 2
+2025-05-26 20:24:32,238 - INFO - Подключение к БД установлено
+2025-05-26 20:24:32,238 - INFO - Генерация остановлена
+2025-05-26 20:24:33,238 - INFO - Подключение к БД установлено
+2025-05-26 20:24:33,238 - INFO - Отключено от сервера
+2025-05-26 20:24:33,238 - INFO - Отключено от сервера при завершении работы
+2025-05-26 20:24:33,239 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 20:24:33,239 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 20:24:33,239 - INFO - Завершение работы приложения
+2025-05-26 20:25:30,693 - INFO - Подключение к БД установлено
+2025-05-26 20:25:30,694 - INFO - Подключение к БД установлено
+2025-05-26 20:25:32,635 - INFO - Попытка подключения к серверу
+2025-05-26 20:25:32,672 - INFO - Подключение к БД установлено
+2025-05-26 20:25:32,672 - INFO - Успешное подключение к серверу
+2025-05-26 20:25:33,727 - INFO - Подключение к БД установлено
+2025-05-26 20:25:33,728 - INFO - Генерация запущена для сессии 3
+2025-05-26 20:26:50,863 - ERROR - Traceback (most recent call last):
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 362, in run_forever
+    dispatcher.read(self.sock.sock, read, check)
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 54, in read
+    if not read_callback():
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 328, in read
+    op_code, frame = self.sock.recv_data_frame(True)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 396, in recv_data_frame
+    frame = self.recv_frame()
+            ^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 435, in recv_frame
+    return self.frame_buffer.recv_frame()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 350, in recv_frame
+    self.recv_header()
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 306, in recv_header
+    header = self.recv_strict(2)
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 385, in recv_strict
+    bytes_ = self.recv(min(16384, shortage))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 521, in _recv
+    return recv(self.sock, bufsize)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_socket.py", line 115, in recv
+    bytes_ = _recv()
+             ^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+
+2025-05-26 20:26:50,864 - ERROR - <signalrcore.transport.websockets.websocket_transport.WebsocketTransport object at 0x000001CEE2178170> [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2025-05-26 20:26:50,864 - ERROR - [WinError 10054] Удаленный хост принудительно разорвал существующее подключение <class 'ConnectionResetError'>
+2025-05-26 20:26:50,864 - INFO - Подключение к БД установлено
+2025-05-26 20:26:50,864 - INFO - Отключено от сервера
+2025-05-26 20:26:50,864 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 20:26:50,864 - INFO - Подключение к БД установлено
+2025-05-26 20:26:50,865 - INFO - Отключено от сервера
+2025-05-26 20:26:50,865 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 20:26:52,708 - WARNING - Connection closed Connection is already closed.
+2025-05-26 20:26:52,708 - INFO - on_reconnect not defined
+2025-05-26 20:26:56,812 - ERROR - HTTPConnectionPool(host='localhost', port=15233): Max retries exceeded with url: /telemetryhub/negotiate?id=P-kDBTJB2hC3bMhiqchyaA (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001CEE217A7E0>: Failed to establish a new connection: [WinError 10061] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение'))
+2025-05-26 20:27:21,583 - INFO - Подключение к БД установлено
+2025-05-26 20:27:21,585 - INFO - Подключение к БД установлено
+2025-05-26 20:27:22,758 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 20:27:22,758 - INFO - Завершение работы приложения
+2025-05-26 20:27:25,314 - INFO - Подключение к БД установлено
+2025-05-26 20:27:25,315 - INFO - Подключение к БД установлено
+2025-05-26 20:27:26,318 - INFO - Попытка подключения к серверу
+2025-05-26 20:27:26,346 - INFO - Подключение к БД установлено
+2025-05-26 20:27:26,347 - INFO - Успешное подключение к серверу
+2025-05-26 20:27:27,405 - INFO - Подключение к БД установлено
+2025-05-26 20:27:27,405 - INFO - Генерация запущена для сессии 4
+2025-05-26 20:27:44,478 - ERROR - Traceback (most recent call last):
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 362, in run_forever
+    dispatcher.read(self.sock.sock, read, check)
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 54, in read
+    if not read_callback():
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 328, in read
+    op_code, frame = self.sock.recv_data_frame(True)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 396, in recv_data_frame
+    frame = self.recv_frame()
+            ^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 435, in recv_frame
+    return self.frame_buffer.recv_frame()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 350, in recv_frame
+    self.recv_header()
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 306, in recv_header
+    header = self.recv_strict(2)
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 385, in recv_strict
+    bytes_ = self.recv(min(16384, shortage))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 521, in _recv
+    return recv(self.sock, bufsize)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_socket.py", line 115, in recv
+    bytes_ = _recv()
+             ^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+
+2025-05-26 20:27:44,478 - ERROR - <signalrcore.transport.websockets.websocket_transport.WebsocketTransport object at 0x000001D56C128170> [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2025-05-26 20:27:44,478 - ERROR - [WinError 10054] Удаленный хост принудительно разорвал существующее подключение <class 'ConnectionResetError'>
+2025-05-26 20:27:44,479 - INFO - Подключение к БД установлено
+2025-05-26 20:27:44,479 - INFO - Отключено от сервера
+2025-05-26 20:27:44,479 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 20:27:44,480 - INFO - Подключение к БД установлено
+2025-05-26 20:27:44,480 - INFO - Отключено от сервера
+2025-05-26 20:27:44,480 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 20:27:46,354 - WARNING - Connection closed Connection is already closed.
+2025-05-26 20:27:46,354 - INFO - on_reconnect not defined
+2025-05-26 20:27:46,847 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 20:27:46,848 - INFO - Завершение работы приложения
+2025-05-26 20:28:20,804 - INFO - Подключение к БД установлено
+2025-05-26 20:28:20,805 - INFO - Подключение к БД установлено
+2025-05-26 20:28:21,859 - INFO - Попытка подключения к серверу
+2025-05-26 20:28:21,896 - INFO - Подключение к БД установлено
+2025-05-26 20:28:21,896 - INFO - Успешное подключение к серверу
+2025-05-26 20:28:22,919 - INFO - Подключение к БД установлено
+2025-05-26 20:28:22,919 - INFO - Генерация запущена для сессии 5
+2025-05-26 20:28:36,249 - INFO - Подключение к БД установлено
+2025-05-26 20:28:36,250 - INFO - Генерация остановлена
+2025-05-26 20:28:38,896 - INFO - Подключение к БД установлено
+2025-05-26 20:28:38,897 - INFO - Отключено от сервера
+2025-05-26 20:28:38,897 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 20:28:38,897 - INFO - Отключено от сервера при завершении работы
+2025-05-26 20:28:38,898 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 20:28:38,898 - INFO - Завершение работы приложения
+2025-05-26 20:31:21,144 - INFO - Подключение к БД установлено
+2025-05-26 20:31:21,145 - INFO - Подключение к БД установлено
+2025-05-26 20:31:22,097 - INFO - Попытка подключения к серверу
+2025-05-26 20:31:22,140 - INFO - Подключение к БД установлено
+2025-05-26 20:31:22,140 - INFO - Успешное подключение к серверу
+2025-05-26 20:31:23,101 - INFO - Подключение к БД установлено
+2025-05-26 20:31:23,101 - INFO - Генерация запущена для сессии 6
+2025-05-26 20:31:30,960 - INFO - Подключение к БД установлено
+2025-05-26 20:31:30,960 - INFO - Генерация остановлена
+2025-05-26 20:31:32,633 - INFO - Подключение к БД установлено
+2025-05-26 20:31:32,633 - INFO - Отключено от сервера
+2025-05-26 20:31:32,633 - INFO - Отключено от сервера при завершении работы
+2025-05-26 20:31:32,634 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 20:31:32,634 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 20:31:32,634 - INFO - Завершение работы приложения
+2025-05-26 20:35:32,959 - INFO - Подключение к БД установлено
+2025-05-26 20:35:32,961 - INFO - Подключение к БД установлено
+2025-05-26 20:35:35,077 - INFO - Попытка подключения к серверу
+2025-05-26 20:35:35,118 - INFO - Подключение к БД установлено
+2025-05-26 20:35:35,118 - INFO - Успешное подключение к серверу
+2025-05-26 20:35:36,574 - INFO - Подключение к БД установлено
+2025-05-26 20:35:36,574 - INFO - Генерация запущена для сессии 7
+2025-05-26 20:36:04,923 - ERROR - Traceback (most recent call last):
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 362, in run_forever
+    dispatcher.read(self.sock.sock, read, check)
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 54, in read
+    if not read_callback():
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 328, in read
+    op_code, frame = self.sock.recv_data_frame(True)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 396, in recv_data_frame
+    frame = self.recv_frame()
+            ^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 435, in recv_frame
+    return self.frame_buffer.recv_frame()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 350, in recv_frame
+    self.recv_header()
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 306, in recv_header
+    header = self.recv_strict(2)
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 385, in recv_strict
+    bytes_ = self.recv(min(16384, shortage))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 521, in _recv
+    return recv(self.sock, bufsize)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_socket.py", line 115, in recv
+    bytes_ = _recv()
+             ^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+
+2025-05-26 20:36:04,923 - ERROR - <signalrcore.transport.websockets.websocket_transport.WebsocketTransport object at 0x000001DFABE08170> [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2025-05-26 20:36:04,923 - ERROR - [WinError 10054] Удаленный хост принудительно разорвал существующее подключение <class 'ConnectionResetError'>
+2025-05-26 20:36:04,924 - INFO - Подключение к БД установлено
+2025-05-26 20:36:04,924 - INFO - Отключено от сервера
+2025-05-26 20:36:04,924 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 20:36:04,924 - INFO - Подключение к БД установлено
+2025-05-26 20:36:04,924 - INFO - Отключено от сервера
+2025-05-26 20:36:04,924 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 20:36:05,151 - WARNING - Connection closed Connection is already closed.
+2025-05-26 20:36:05,152 - INFO - on_reconnect not defined
+2025-05-26 20:36:06,140 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 20:36:06,141 - INFO - Завершение работы приложения
+2025-05-26 20:41:36,560 - INFO - Подключение к БД установлено
+2025-05-26 20:41:36,562 - INFO - Подключение к БД установлено
+2025-05-26 20:41:37,436 - INFO - Попытка подключения к серверу
+2025-05-26 20:41:37,474 - INFO - Подключение к БД установлено
+2025-05-26 20:41:37,474 - INFO - Успешное подключение к серверу
+2025-05-26 20:41:38,720 - INFO - Подключение к БД установлено
+2025-05-26 20:41:38,720 - INFO - Генерация запущена для сессии 8
+2025-05-26 20:41:55,728 - INFO - Подключение к БД установлено
+2025-05-26 20:41:55,728 - INFO - Генерация остановлена
+2025-05-26 20:42:00,954 - ERROR - Traceback (most recent call last):
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 362, in run_forever
+    dispatcher.read(self.sock.sock, read, check)
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 54, in read
+    if not read_callback():
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 328, in read
+    op_code, frame = self.sock.recv_data_frame(True)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 396, in recv_data_frame
+    frame = self.recv_frame()
+            ^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 435, in recv_frame
+    return self.frame_buffer.recv_frame()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 350, in recv_frame
+    self.recv_header()
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 306, in recv_header
+    header = self.recv_strict(2)
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 385, in recv_strict
+    bytes_ = self.recv(min(16384, shortage))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 521, in _recv
+    return recv(self.sock, bufsize)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_socket.py", line 115, in recv
+    bytes_ = _recv()
+             ^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+
+2025-05-26 20:42:00,954 - ERROR - <signalrcore.transport.websockets.websocket_transport.WebsocketTransport object at 0x00000148EB808170> [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2025-05-26 20:42:00,954 - ERROR - [WinError 10054] Удаленный хост принудительно разорвал существующее подключение <class 'ConnectionResetError'>
+2025-05-26 20:42:00,954 - INFO - Подключение к БД установлено
+2025-05-26 20:42:00,954 - INFO - Отключено от сервера
+2025-05-26 20:42:00,955 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 20:42:00,955 - INFO - Подключение к БД установлено
+2025-05-26 20:42:00,955 - INFO - Отключено от сервера
+2025-05-26 20:42:00,955 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 20:42:05,077 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 20:42:05,077 - INFO - Завершение работы приложения
+2025-05-26 20:52:10,119 - INFO - Подключение к БД установлено
+2025-05-26 20:52:10,121 - INFO - Подключение к БД установлено
+2025-05-26 20:52:11,075 - INFO - Попытка подключения к серверу
+2025-05-26 20:52:11,114 - INFO - Подключение к БД установлено
+2025-05-26 20:52:11,114 - INFO - Успешное подключение к серверу
+2025-05-26 20:52:35,096 - INFO - Список сессий обновлен, количество: 8
+2025-05-26 20:52:36,073 - INFO - Для сессии 8 не найдено пакетов
+2025-05-26 20:52:36,073 - WARNING - Предупреждение: Для выбранной сессии нет пакетов данных
+2025-05-26 20:52:36,651 - INFO - Для сессии 7 не найдено пакетов
+2025-05-26 20:52:36,651 - WARNING - Предупреждение: Для выбранной сессии нет пакетов данных
+2025-05-26 20:52:38,721 - INFO - Подключение к БД установлено
+2025-05-26 20:52:38,722 - INFO - Отключено от сервера
+2025-05-26 20:52:38,722 - INFO - Отключено от сервера при завершении работы
+2025-05-26 20:52:38,722 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 20:52:38,722 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 20:52:38,723 - INFO - Завершение работы приложения
+2025-05-26 20:54:21,309 - INFO - Подключение к БД установлено
+2025-05-26 20:54:21,311 - INFO - Подключение к БД установлено
+2025-05-26 20:54:22,508 - INFO - Попытка подключения к серверу
+2025-05-26 20:54:22,553 - INFO - Подключение к БД установлено
+2025-05-26 20:54:22,553 - INFO - Успешное подключение к серверу
+2025-05-26 20:54:29,155 - ERROR - Traceback (most recent call last):
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 362, in run_forever
+    dispatcher.read(self.sock.sock, read, check)
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 54, in read
+    if not read_callback():
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_app.py", line 328, in read
+    op_code, frame = self.sock.recv_data_frame(True)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 396, in recv_data_frame
+    frame = self.recv_frame()
+            ^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 435, in recv_frame
+    return self.frame_buffer.recv_frame()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 350, in recv_frame
+    self.recv_header()
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 306, in recv_header
+    header = self.recv_strict(2)
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_abnf.py", line 385, in recv_strict
+    bytes_ = self.recv(min(16384, shortage))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_core.py", line 521, in _recv
+    return recv(self.sock, bufsize)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\logos\Desktop\Telemetry\Client\.venv\Lib\site-packages\websocket\_socket.py", line 115, in recv
+    bytes_ = _recv()
+             ^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+
+2025-05-26 20:54:29,155 - ERROR - <signalrcore.transport.websockets.websocket_transport.WebsocketTransport object at 0x0000026486338170> [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2025-05-26 20:54:29,155 - ERROR - [WinError 10054] Удаленный хост принудительно разорвал существующее подключение <class 'ConnectionResetError'>
+2025-05-26 20:54:29,155 - INFO - Подключение к БД установлено
+2025-05-26 20:54:29,155 - INFO - Отключено от сервера
+2025-05-26 20:54:29,155 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 20:54:29,156 - INFO - Подключение к БД установлено
+2025-05-26 20:54:29,156 - INFO - Отключено от сервера
+2025-05-26 20:54:29,156 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 20:54:32,559 - WARNING - Connection closed Connection is already closed.
+2025-05-26 20:54:32,559 - INFO - on_reconnect not defined
+2025-05-26 20:54:36,633 - ERROR - HTTPConnectionPool(host='localhost', port=15233): Max retries exceeded with url: /telemetryhub/negotiate?id=O6FGDOQUCr_zhdxAg0vRBw (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000002648633A8A0>: Failed to establish a new connection: [WinError 10061] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение'))
+2025-05-26 21:01:49,852 - INFO - Подключение к БД установлено
+2025-05-26 21:01:49,854 - INFO - Подключение к БД установлено
+2025-05-26 21:01:51,089 - INFO - Попытка подключения к серверу
+2025-05-26 21:01:51,128 - INFO - Подключение к БД установлено
+2025-05-26 21:01:51,128 - INFO - Успешное подключение к серверу
+2025-05-26 21:01:53,032 - INFO - Подключение к БД установлено
+2025-05-26 21:01:53,032 - INFO - Генерация запущена для сессии 9
+2025-05-26 21:02:13,816 - INFO - Подключение к БД установлено
+2025-05-26 21:02:13,816 - INFO - Генерация остановлена
+2025-05-26 21:02:17,569 - INFO - Список сессий обновлен, количество: 9
+2025-05-26 21:02:18,928 - INFO - Загружено 10 пакетов для сессии 9
+2025-05-26 21:02:21,088 - INFO - Подключение к БД установлено
+2025-05-26 21:02:21,088 - INFO - Отключено от сервера при завершении работы
+2025-05-26 21:02:21,088 - INFO - Отключено от сервера
+2025-05-26 21:02:21,088 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 21:02:21,089 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 21:02:21,089 - INFO - Завершение работы приложения
+2025-05-26 21:30:25,948 - INFO - Подключение к БД установлено
+2025-05-26 21:30:25,949 - INFO - Подключение к БД установлено
+2025-05-26 21:30:28,764 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 21:30:28,764 - INFO - Завершение работы приложения
+2025-05-26 22:41:45,377 - INFO - Подключение к БД установлено
+2025-05-26 22:41:45,379 - INFO - Подключение к БД установлено
+2025-05-26 22:41:46,635 - INFO - Попытка подключения к серверу
+2025-05-26 22:41:46,680 - INFO - Подключение к БД установлено
+2025-05-26 22:41:46,680 - INFO - Успешное подключение к серверу
+2025-05-26 22:41:47,373 - INFO - Подключение к БД установлено
+2025-05-26 22:41:47,373 - INFO - Генерация запущена для сессии 1
+2025-05-26 22:42:00,967 - INFO - Подключение к БД установлено
+2025-05-26 22:42:00,967 - INFO - Генерация остановлена
+2025-05-26 22:42:03,047 - INFO - Список сессий обновлен, количество: 1
+2025-05-26 22:42:03,599 - INFO - Загружено 7 пакетов для сессии 1
+2025-05-26 22:42:05,754 - INFO - Подключение к БД установлено
+2025-05-26 22:42:05,754 - INFO - Отключено от сервера
+2025-05-26 22:42:05,754 - INFO - Отключено от сервера при завершении работы
+2025-05-26 22:42:05,754 - WARNING - Предупреждение: Соединение с сервером закрыто
+2025-05-26 22:42:05,755 - INFO - Подключение к БД закрыто при завершении работы
+2025-05-26 22:42:05,755 - INFO - Завершение работы приложения
