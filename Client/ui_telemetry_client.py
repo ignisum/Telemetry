@@ -18,7 +18,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QHeaderView, QLabel,
     QLayout, QListWidget, QListWidgetItem, QMainWindow,
     QPushButton, QSizePolicy, QStatusBar, QTabWidget,
-    QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
+    QTableWidgetItem, QVBoxLayout, QWidget)
 
 from custom_table import PacketTable
 
@@ -53,7 +53,7 @@ class Ui_MainWindow(object):
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setSpacing(6)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.verticalLayout.setSizeConstraint(QLayout.SizeConstraint.SetDefaultConstraint)
+        self.verticalLayout.setSizeConstraint(QLayout.SetDefaultConstraint)
         self.verticalLayout.setContentsMargins(0, 0, 0, -1)
         self.btnConnect = QPushButton(self.tab_3)
         self.btnConnect.setObjectName(u"btnConnect")
@@ -62,7 +62,7 @@ class Ui_MainWindow(object):
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.btnConnect.sizePolicy().hasHeightForWidth())
         self.btnConnect.setSizePolicy(sizePolicy2)
-        self.btnConnect.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
+        self.btnConnect.setLayoutDirection(Qt.LeftToRight)
 
         self.verticalLayout.addWidget(self.btnConnect)
 
@@ -113,14 +113,14 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_5.addWidget(self.listSessions)
 
-        self.tableSessionPackets = QTableWidget(self.tab_4)
-        self.tableSessionPackets.setObjectName(u"tableSessionPackets")
-        sizePolicy.setHeightForWidth(self.tableSessionPackets.sizePolicy().hasHeightForWidth())
-        self.tableSessionPackets.setSizePolicy(sizePolicy)
-        self.tableSessionPackets.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
-        self.tableSessionPackets.setSizeAdjustPolicy(QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
+        self.HistoryPacketTableWidget = PacketTable(self.tab_4)
+        self.HistoryPacketTableWidget.setObjectName(u"HistoryPacketTableWidget")
+        sizePolicy.setHeightForWidth(self.HistoryPacketTableWidget.sizePolicy().hasHeightForWidth())
+        self.HistoryPacketTableWidget.setSizePolicy(sizePolicy)
+        self.HistoryPacketTableWidget.setLayoutDirection(Qt.LeftToRight)
+        self.HistoryPacketTableWidget.setSizeAdjustPolicy(QAbstractScrollArea.AdjustIgnored)
 
-        self.verticalLayout_5.addWidget(self.tableSessionPackets)
+        self.verticalLayout_5.addWidget(self.HistoryPacketTableWidget)
 
         self.tabWidget.addTab(self.tab_4, "")
         MainWindow.setCentralWidget(self.centralwidget)
@@ -137,7 +137,7 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"\u0422\u0435\u043b\u0435\u043c\u0435\u0442\u0440\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u043a\u043b\u0438\u0435\u043d\u0442", None))
         self.btnConnect.setText(QCoreApplication.translate("MainWindow", u"\u041f\u043e\u0434\u043a\u043b\u044e\u0447\u0438\u0442\u044c\u0441\u044f \u043a \u0441\u0435\u0440\u0432\u0435\u0440\u0443", None))
 #if QT_CONFIG(tooltip)
         self.btnStart.setToolTip(QCoreApplication.translate("MainWindow", u"\u0417\u0430\u043f\u0443\u0441\u043a\u0430\u0435\u0442 \u0433\u0435\u043d\u0435\u0440\u0430\u0446\u0438\u044e \u0438 \u043f\u0435\u0440\u0435\u0434\u0430\u0447\u0443 \u0442\u0435\u043b\u0435\u043c\u0435\u0442\u0440\u0438\u0447\u0435\u0441\u043a\u0438\u0445 \u0434\u0430\u043d\u043d\u044b\u0445", None))
