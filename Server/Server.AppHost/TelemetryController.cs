@@ -6,7 +6,7 @@ using Server.Data;
 using Server.Services;
 
 namespace Server.Controllers
-{ 
+{
     [ApiController]
     [Route("api/[controller]")]
     public class TelemetryController : ControllerBase
@@ -14,12 +14,10 @@ namespace Server.Controllers
         private readonly TelemetryService _telemetryService;
         private readonly IServiceProvider _services;
         private readonly ILogger _logger;
-        private readonly TelemetryManagerService _telemetryManager;
 
         public TelemetryController(TelemetryService telemetryService, IServiceProvider services, ILogger<TelemetryService> logger,
             TelemetryManagerService telemetryManager)
         {
-            _telemetryManager = telemetryManager;
             _telemetryService = telemetryService;
             _services = services;
             _logger = logger;
@@ -28,24 +26,33 @@ namespace Server.Controllers
         [HttpPost("start")]
         public IActionResult StartGeneration([FromBody] StartRequest request)
         {
-            if (request?.SessionId != null)
-            {
-                _telemetryService.CurrentSessionId = request.SessionId.Value;
-            }
-
-            _telemetryService.StartGeneration(request?.SessionId);
-            return Ok(new
-            {
-                Message = "Генерация данных запущена",
-                SessionId = _telemetryService.CurrentSessionId
-            });
+            if (request?.SessionId == null)
+                return BadRequest("SessionId is required");
+            _logger.LogInformation($"StartGeneration called with SessionId: {request?.SessionId}");
+            _telemetryService.StartGeneration(request.SessionId.Value);
+            return Ok(new { Message = $"Генерация запущена для сессии {request.SessionId}" });
         }
 
         [HttpPost("stop")]
-        public IActionResult StopGeneration()
+        public async Task<IActionResult> StopGeneration([FromBody] StopRequest request)
         {
-            _telemetryService.StopGeneration();
-            return Ok("Генерация данных остановлена");
+            try
+            {
+                if (request?.SessionId == null)
+                    return BadRequest("SessionId is required");
+
+                await _telemetryService.StopGeneration(request.SessionId.Value);
+                return Ok(new
+                {
+                    Message = $"Генерация остановлена для сессии {request.SessionId}",
+                    SessionId = request.SessionId
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Ошибка при остановке генерации для сессии {request?.SessionId}");
+                return StatusCode(500, new { Error = "Internal server error" });
+            }
         }
 
         [HttpGet("status")]
@@ -110,12 +117,17 @@ namespace Server.Controllers
 
         public class SessionRequest
         {
-            public string Name { get; set; }
+            public string? Name { get; set; }
         }
 
         public class StartRequest
         {
             public int? SessionId { get; set; }
+        }
+
+        public class StopRequest
+        {
+            public long? SessionId { get; set; }
         }
 
     }

@@ -291,6 +291,7 @@ class MainWindow(QMainWindow):
         response = self.api.start_generation(self.current_session_id)
 
         if response.status_code == 200:
+            self.signalr.join_session(int(self.current_session_id))
             self.is_generation_active = True
             self._update_ui_state()
             self.logger.info(f"Генерация запущена для сессии {self.current_session_id}")
@@ -302,21 +303,30 @@ class MainWindow(QMainWindow):
         if not self.is_generation_active:
             return
 
-        response = self.api.stop_generation()
-        if response.status_code == 200:
-            self.is_generation_active = False
-            self._update_ui_state()
-            self.logger.info("Генерация остановлена")
-        else:
-            self.logger.error(f"Ошибка остановки генерации, код статуса: {response.status_code}")
-            self._show_error("Сервер не подтвердил остановку генерации")
+        try:
+            if hasattr(self, 'current_session_id') and self.current_session_id:
+                self.signalr.leave_session(int(self.current_session_id))
+                response = self.api.stop_generation(self.current_session_id)
+
+                if response.status_code == 200:
+                    self.is_generation_active = False
+                    self._update_ui_state()
+                    self.logger.info("Генерация остановлена")
+                else:
+                    self.logger.error(f"Ошибка остановки генерации, код статуса: {response.status_code}")
+                    self._show_error("Сервер не подтвердил остановку генерации")
+        except Exception as e:
+            self.logger.error(f"Ошибка при остановке генерации: {e}")
+            self._show_error(f"Ошибка при остановке генерации: {str(e)}")
 
     def _toggle_server_connection(self) -> None:
         try:
             if self.signalr_connected:
+                self.is_manual_disconnect = True
                 self.signalr.disconnect()
-                self.logger.info("Отключено от сервера")
+                self.logger.info("Отключено от сервера по запросу пользователя")
             else:
+                self.is_manual_disconnect = False
                 self.signalr.connect()
                 self.logger.info("Попытка подключения к серверу")
         except Exception as e:
@@ -335,12 +345,17 @@ class MainWindow(QMainWindow):
         self.logger.info("Успешное подключение к серверу")
 
     def _on_server_disconnected(self) -> None:
+        self.logger.debug("Отключение от сервера")
         self.signalr_connected = False
         self.is_generation_active = False
         self._update_ui_state()
-        self.logger.info("Отключено от сервера")
-        if "✔" in self.ui.statusbar.currentMessage():
-            self._show_error("Соединение с сервером закрыто")
+
+        if hasattr(self, 'is_manual_disconnect') and self.is_manual_disconnect:
+            self.ui.statusbar.showMessage("Соединение с сервером закрыто пользователем")
+            QTimer.singleShot(500, self._update_ui_state)
+        else:
+            self._show_error("Соединение с сервером разорвано")
+            self.logger.warning("Сервер разорвал соединение")
 
     def _handle_error(self, error: str) -> None:
         error_msg = str(error)
@@ -374,7 +389,7 @@ class MainWindow(QMainWindow):
     def _show_error(self, message: str) -> None:
         if not message.strip():
             message = "Произошла неизвестная ошибка"
-        self.ui.statusbar.showMessage(f"ОШИБКА: {message}", 10000)
+        self.ui.statusbar.showMessage(f"ОШИБКА: {message}", 3000)
         if "разорвал" in message or "отключ" in message.lower():
             self.logger.error(f"Критическая ошибка: {message}")
             QMessageBox.critical(
@@ -388,6 +403,8 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, event) -> None:
         if self.is_generation_active:
+            if hasattr(self, 'current_session_id') and self.current_session_id:
+                self.signalr.leave_session(self.current_session_id)
             response = self.api.stop_generation()
             if response.status_code == 200:
                 self.is_generation_active = False

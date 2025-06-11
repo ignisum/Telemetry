@@ -1,78 +1,106 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using DotNetEnv;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Server.Data;
 using Server.Hubs;
 using Server.Services;
+using System.Reflection;
 
-var builder = WebApplication.CreateBuilder(args);
 
-builder.Logging.ClearProviders();
-builder.Logging.AddConsole();
-builder.Logging.AddDebug();
-
-builder.Services.AddCors(options =>
+var appLocation = AppDomain.CurrentDomain.BaseDirectory;
+var envPath = Path.Combine(appLocation, ".env");
+if (!File.Exists(envPath))
 {
-    options.AddPolicy("AllowAll", policy =>
-    {
-        policy.AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowAnyOrigin();
-    });
-});
-var config = new ConfigurationBuilder()
-    .SetBasePath(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName)
-    .AddJsonFile("Telemetry/config/dbconfig.json")
-    .AddJsonFile("Telemetry/config/appsettings.json")
-    .Build();
-
-var connectionString = $"Host={config["DatabaseSettings:Host"]};" +
-                      $"Port={config["DatabaseSettings:Port"]};" +
-                      $"Database={config["DatabaseSettings:Database"]};" +
-                      $"Username={config["DatabaseSettings:Username"]};" +
-                      $"Password={config["DatabaseSettings:Password"]};" +
-                      $"SearchPath={config["DatabaseSettings:Schema"]};" +
-                      $"SslMode={config["DatabaseSettings:SslMode"]}";
-
-builder.Services.AddDbContext<ApplicationContext>(options =>
-    options.UseNpgsql(connectionString));
-builder.Services.AddSignalR();
-builder.Services.AddSingleton<TelemetryService>();
-builder.Services.AddHostedService(provider => provider.GetRequiredService<TelemetryService>());
-builder.Services.AddSingleton<TelemetryManagerService>();
-builder.Services.AddControllers();
-
-var app = builder.Build();
-
-var logger = app.Services.GetRequiredService<ILogger<Program>>();
-
-app.UseCors("AllowAll");
-app.MapControllers();
-app.MapHub<TelemetryHub>("/telemetryhub");
-
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
-    try
-    {
-        await db.Database.MigrateAsync(); ;
-        logger.LogInformation("Проверка состояния БД...");
-        if (!await db.Database.CanConnectAsync())
-        {
-            logger.LogWarning("Нет подключения к БД!");
-        }
-        else
-        {
-            logger.LogInformation("Подключение к БД успешно");
-        }
-    }
-    catch (Exception ex)
-    {
-        logger.LogError(ex, "Ошибка подключения к БД");
-    }
+    envPath = Path.Combine(
+    Directory.GetParent(Directory.GetCurrentDirectory())?.Parent?.FullName ?? string.Empty,
+    ".env");
 }
 
-logger.LogInformation("Сервер запущен на http://localhost:15233");
-await app.RunAsync();
+Console.WriteLine($"Ищем .env файл по пути: {envPath}");
+
+if (File.Exists(envPath))
+{
+    Env.Load(envPath);
+}
+else
+{
+    Console.WriteLine("Файл .env не найден. Используются переменные окружения системы.");
+}
+
+var serverPort = Environment.GetEnvironmentVariable("SERVER_PORT") ?? "15233";
+var dbHost = Environment.GetEnvironmentVariable("DB_HOST") ?? "localhost";
+var dbPort = Environment.GetEnvironmentVariable("DB_PORT") ?? "5432";
+var dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "Telemetry";
+var dbUser = Environment.GetEnvironmentVariable("DB_USER") ?? "postgres";
+var dbSchema = Environment.GetEnvironmentVariable("DB_SCHEMA") ?? "public";
+var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
+
+var connectionString = $"Host={dbHost};Port={dbPort};Database={dbName};" +
+                     $"Username={dbUser};Password={dbPassword};" +
+                     $"SearchPath={dbSchema};SslMode=Prefer";
+
+try
+{
+    var builder = WebApplication.CreateBuilder(args);
+
+    builder.Logging.ClearProviders();
+    builder.Logging.AddConsole();
+    builder.Logging.AddDebug();
+
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("AllowAll", policy =>
+        {
+            policy.AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowAnyOrigin();
+        });
+    });
+
+    builder.Services.AddDbContext<ApplicationContext>(options =>
+        options.UseNpgsql(connectionString));
+
+    builder.Services.AddSignalR();
+    builder.Services.AddSingleton<TelemetryService>();
+    builder.Services.AddHostedService(provider =>
+        provider.GetRequiredService<TelemetryService>());
+    builder.Services.AddSingleton<TelemetryManagerService>();
+    builder.Services.AddControllers();
+
+    var app = builder.Build();
+
+    app.UseCors("AllowAll");
+    app.MapControllers();
+    app.MapHub<TelemetryHub>("/telemetryhub");
+
+    using (var scope = app.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
+        try
+        {
+            await db.Database.MigrateAsync();
+            if (await db.Database.CanConnectAsync())
+            {
+                Console.WriteLine("Подключение к БД успешно");
+            }
+            else
+            {
+                Console.WriteLine("Нет подключения к БД!");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Ошибка БД: {ex.Message}");
+        }
+    }
+
+    var url = $"http://*:{serverPort}";
+    Console.WriteLine($"Сервер запущен на {url}");
+    await app.RunAsync(url);
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Критическая ошибка: {ex}");
+}

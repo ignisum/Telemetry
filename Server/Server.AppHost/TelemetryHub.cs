@@ -7,17 +7,21 @@ namespace Server.Hubs
     {
         public async Task SendPacket(TelemetryPacket packet)
         {
-            await Clients.All.SendAsync("NewPacket", packet);
+            await Clients.Group($"session-{packet.SessionId}").SendAsync("NewPacket", packet);
         }
 
-        public async Task JoinSession(int sessionId)
+        public async Task JoinSession(long sessionId)
         {
+            Console.WriteLine($"Client {Context.ConnectionId} joining session {sessionId}");
             await Groups.AddToGroupAsync(Context.ConnectionId, $"session-{sessionId}");
+            await Clients.Caller.SendAsync("SessionJoined", sessionId);
         }
 
-        public async Task LeaveSession(int sessionId)
+        public async Task LeaveSession(long sessionId)
         {
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"session-{sessionId}" );
+            Console.WriteLine($"Client {Context.ConnectionId} leaving session {sessionId}");
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"session-{sessionId}");
+            await Clients.Caller.SendAsync("SessionLeft", sessionId);
         }
 
         public override async Task OnConnectedAsync()

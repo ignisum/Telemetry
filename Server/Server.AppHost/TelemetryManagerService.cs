@@ -7,10 +7,10 @@ namespace Server.Services
         public TelemetryManagerService(TelemetryService telemetryService)
             => _telemetryService = telemetryService;
 
-        public void StartGeneration(int? sessionId)
-            => _telemetryService.StartGeneration(sessionId);
+        public void StartGeneration(long? sessionId)
+            => _telemetryService.StartGeneration(sessionId ?? throw new ArgumentNullException(nameof(sessionId)));
 
-        public void StopGeneration()
-            => _telemetryService.StopGeneration();
+        public async Task StopGeneration(long sessionId)
+            => await _telemetryService.StopGeneration(sessionId);
     }
 }

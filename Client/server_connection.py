@@ -1,9 +1,9 @@
 import json
 import requests
 from requests.adapters import HTTPAdapter
+from typing import Callable
 from signalrcore.hub_connection_builder import HubConnectionBuilder
 from urllib3 import Retry
-from typing import Callable
 
 
 class SignalRClient:
@@ -26,6 +26,14 @@ class SignalRClient:
 
     def on_packet_received(self, callback: Callable):
         self.connection.on("NewPacket", callback)
+
+    def join_session(self, session_id: int):
+        if self.connection:
+            self.connection.send("JoinSession", [session_id])
+
+    def leave_session(self, session_id: int):
+        if self.connection:
+            self.connection.send("LeaveSession", [session_id])
 
 
 class TelemetryApiClient:
@@ -62,5 +70,16 @@ class TelemetryApiClient:
             timeout=10
         )
 
-    def stop_generation(self):
-        return self._session.post(f"{self.base_url}/stop", timeout=2)
+    def stop_generation(self, session_id=None):
+        if session_id is None:
+            return self._session.post(
+                f"{self.base_url}/stop",
+                timeout=2
+            )
+
+        return self._session.post(
+            f"{self.base_url}/stop",
+            json={"sessionId": int(session_id)},
+            headers={"Content-Type": "application/json"},
+            timeout=2
+        )

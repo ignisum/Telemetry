@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Server.Data;
 using Server.Hubs;
 using Server.Models;
+using System.Collections.Concurrent;
 
 namespace Server.Services
 {
@@ -14,9 +15,9 @@ namespace Server.Services
         private readonly IServiceProvider _services;
         private readonly IHubContext<TelemetryHub> _hubContext;
         private readonly ILogger<TelemetryService> _logger;
+        private readonly ConcurrentDictionary<long, SessionGenerator> _activeSessions = new();
+        private readonly ConcurrentDictionary<long, int> _sessionPacketCounters = new();
 
-        private int _packetCounter = 0;
-        private bool _isRunning = false;
         private long? _currentSessionId;
 
         public long? CurrentSessionId
@@ -51,8 +52,7 @@ namespace Server.Services
                 dbContext.Sessions.Add(session);
                 await dbContext.SaveChangesAsync();
 
-                _currentSessionId = (int?)session.Id;
-                return (int)session.Id;
+                return session.Id;
             }
             finally
             {
@@ -89,115 +89,134 @@ namespace Server.Services
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                if (_isRunning && _currentSessionId.HasValue)
+                try
                 {
-                    await using var scope = _services.CreateAsyncScope();
-                    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
-
-                    try
+                    foreach (var session in _activeSessions)
                     {
-                        if (!await dbContext.Database.CanConnectAsync(stoppingToken))
+                        if (session.Value.IsRunning)
                         {
-                            _logger.LogError("Нет подключения к БД! Повторная попытка через 5 секунд...");
-                            await Task.Delay(5000, stoppingToken);
-                            continue;
+                            await GeneratePacketForSession(session.Key);
                         }
-
-                        var packet = new TelemetryPacket
-                        {
-                            PacketCounter = _packetCounter++,
-                            Timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
-                            Payload = Math.Sin(new Random().NextDouble() * 2 * Math.PI),
-                            SessionId = _currentSessionId.Value
-                        };
-
-                        packet.Crc16 = ComputeCrc16(packet);
-
-                        await dbContext.Packets.AddAsync(packet, stoppingToken);
-                        await dbContext.SaveChangesAsync(stoppingToken);
-                        await _hubContext.Clients.All.SendAsync("NewPacket", packet, stoppingToken);
-
-                        _logger.LogDebug($"Отправлен пакет {packet.Id} в сессии {CurrentSessionId}");
                     }
-                    catch (Npgsql.PostgresException ex)
-                    {
-                        _logger.LogError(ex, "Ошибка PostgreSQL");
-                        await Task.Delay(10000, stoppingToken);
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError(ex, "Ошибка в сервисе телеметрии");
-                        await Task.Delay(5000, stoppingToken);
-                    }
-                    finally
-                    {
-                        await EnsureConnectionClosedAsync(dbContext);
-                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Ошибка в сервисе телеметрии");
                 }
 
                 await Task.Delay(2000, stoppingToken);
             }
         }
 
-        public void StartGeneration(long? sessionId = null)
+        private async Task GeneratePacketForSession(long sessionId)
         {
-            if (sessionId.HasValue)
-            {
-                _currentSessionId = sessionId.Value;
-            }
+            await using var scope = _services.CreateAsyncScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
 
-            if (!CurrentSessionId.HasValue)
+            try
             {
-                _logger.LogWarning("Попытка запуска генерации без активной сессии");
-                return;
-            }
+                if (!await dbContext.Database.CanConnectAsync())
+                {
+                    _logger.LogError("Нет подключения к БД");
+                    return;
+                }
 
-            _isRunning = true;
-            _logger.LogInformation($"Генерация запущена для сессии {CurrentSessionId}");
+                int packetCounter = _sessionPacketCounters.AddOrUpdate(
+                    sessionId,
+                    0,
+                    (id, count) => count + 1);
+
+                var packet = new TelemetryPacket
+                {
+                    PacketCounter = packetCounter,
+                    Timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
+                    Payload = Math.Sin(new Random().NextDouble() * 2 * Math.PI),
+                    SessionId = sessionId
+                };
+
+                packet.Crc16 = ComputeCrc16(packet);
+
+                await dbContext.Packets.AddAsync(packet);
+                await dbContext.SaveChangesAsync();
+
+                await _hubContext.Clients.Group($"session-{sessionId}")
+                    .SendAsync("NewPacket", packet);
+
+                _logger.LogDebug($"Паект {packet.Id} отправлен для сессии {sessionId}");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Ошибка генерации пакета для сессии {sessionId}");
+            }
+            finally
+            {
+                await EnsureConnectionClosedAsync(dbContext);
+            }
         }
 
-        public async Task StopGeneration()
+        public void StartGeneration(long sessionId)
         {
-            if (_currentSessionId.HasValue)
+            _activeSessions.AddOrUpdate(
+                sessionId,
+                id => new SessionGenerator { IsRunning = true },
+                (id, state) => {
+                    state.IsRunning = true;
+                    return state;
+                });
+
+            _sessionPacketCounters.TryAdd(sessionId, 0);
+
+            _logger.LogInformation($"Генерация начата для сессии {sessionId}. Активных сессий: {_activeSessions.Count}");
+        }
+        public async Task StopGeneration(long sessionId)
+        {
+            if (_activeSessions.TryRemove(sessionId, out var generator))
             {
+                generator.IsRunning = false;
+
                 await using var scope = _services.CreateAsyncScope();
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
 
                 try
                 {
-                    var session = await dbContext.Sessions.FindAsync(_currentSessionId);
+                    var session = await dbContext.Sessions.FindAsync(sessionId);
                     if (session != null)
                     {
                         session.EndTime = DateTime.UtcNow;
                         await dbContext.SaveChangesAsync();
+                        _logger.LogInformation($"Сессиия {sessionId} сохранена в БД");
                     }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"Ошибка при завершении сеанса {sessionId}");
                 }
                 finally
                 {
                     await EnsureConnectionClosedAsync(dbContext);
-                    _currentSessionId = null;
                 }
-            }
 
-            _isRunning = false;
-            _logger.LogInformation("Генерация данных остановлена");
+                await _hubContext.Clients.Group($"session-{sessionId}")
+                    .SendAsync("GenerationStopped", sessionId);
+
+                _logger.LogInformation($"Генерация данных остановлена для сессии {sessionId}");
+            }
+            else
+            {
+                _logger.LogWarning($"Попытка завершить несуществующую сессию {sessionId}");
+            }
         }
 
         public override async Task StopAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Остановка сервиса телеметрии...");
 
-            try
+            foreach (var sessionId in _activeSessions.Keys)
             {
-                if (_isRunning)
-                {
-                    await StopGeneration();
-                }
+                await StopGeneration(sessionId);
             }
-            finally
-            {
-                await base.StopAsync(cancellationToken);
-            }
+
+            await base.StopAsync(cancellationToken);
         }
 
         private static int ComputeCrc16(TelemetryPacket packet)
@@ -234,5 +253,10 @@ namespace Server.Services
                 _logger.LogError(ex, "Ошибка при закрытии соединения с БД");
             }
         }
+    }
+
+    public class SessionGenerator
+    {
+        public bool IsRunning { get; set; } = true;
     }
 }

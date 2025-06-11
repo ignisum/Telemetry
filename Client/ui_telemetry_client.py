@@ -53,7 +53,7 @@ class Ui_MainWindow(object):
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setSpacing(6)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.verticalLayout.setSizeConstraint(QLayout.SetDefaultConstraint)
+        self.verticalLayout.setSizeConstraint(QLayout.SizeConstraint.SetDefaultConstraint)
         self.verticalLayout.setContentsMargins(0, 0, 0, -1)
         self.btnConnect = QPushButton(self.tab_3)
         self.btnConnect.setObjectName(u"btnConnect")
@@ -62,7 +62,7 @@ class Ui_MainWindow(object):
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.btnConnect.sizePolicy().hasHeightForWidth())
         self.btnConnect.setSizePolicy(sizePolicy2)
-        self.btnConnect.setLayoutDirection(Qt.LeftToRight)
+        self.btnConnect.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
 
         self.verticalLayout.addWidget(self.btnConnect)
 
@@ -117,8 +117,8 @@ class Ui_MainWindow(object):
         self.HistoryPacketTableWidget.setObjectName(u"HistoryPacketTableWidget")
         sizePolicy.setHeightForWidth(self.HistoryPacketTableWidget.sizePolicy().hasHeightForWidth())
         self.HistoryPacketTableWidget.setSizePolicy(sizePolicy)
-        self.HistoryPacketTableWidget.setLayoutDirection(Qt.LeftToRight)
-        self.HistoryPacketTableWidget.setSizeAdjustPolicy(QAbstractScrollArea.AdjustIgnored)
+        self.HistoryPacketTableWidget.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
+        self.HistoryPacketTableWidget.setSizeAdjustPolicy(QAbstractScrollArea.SizeAdjustPolicy.AdjustIgnored)
 
         self.verticalLayout_5.addWidget(self.HistoryPacketTableWidget)
 
