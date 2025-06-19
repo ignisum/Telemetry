@@ -1,7 +1,6 @@
 import json
 import logging
 from datetime import datetime
-from logging.handlers import RotatingFileHandler
 from typing import Optional, List, Union
 
 from PySide6.QtCore import QTimer, Qt
@@ -21,11 +20,11 @@ class MainWindow(QMainWindow):
 
     def __init__(self) -> None:
         super().__init__()
-        self._setup_logging()
+
+        self.logger = logging.getLogger(__name__)
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-
         self.current_packet_counter: int = 0
         self.signalr_connected: bool = False
         self.is_generation_active: bool = False
@@ -33,7 +32,7 @@ class MainWindow(QMainWindow):
         self.current_session_id: int = 0
         self.db_connected: bool = False
 
-        self.signalr: SignalRClient = SignalRClient(f'{Config.SERVER_URL}/telemetryhub')
+        self.signalr: SignalRClient = SignalRClient(Config.SERVER_URL + "/telemetryhub")
         self.api: TelemetryApiClient = TelemetryApiClient(Config.SERVER_URL + "/api/Telemetry")
         self.db: PostgresManager = PostgresManager(Config.DB_CONFIG)
         self.db_check_timer: QTimer = QTimer()
@@ -42,20 +41,6 @@ class MainWindow(QMainWindow):
         self._check_db_connection()
         self._setup_timers()
         self._update_ui_state()
-
-    def _setup_logging(self) -> None:
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(levelname)s - %(message)s',
-            handlers=[
-                RotatingFileHandler(
-                    'telemetry_client.log',
-                    encoding='utf-8'
-                ),
-                logging.StreamHandler()
-            ]
-        )
-        self.logger = logging.getLogger(__name__)
 
     def _setup_ui_signals(self) -> None:
         self.ui.btnConnect.clicked.connect(self._toggle_server_connection)
@@ -101,9 +86,9 @@ class MainWindow(QMainWindow):
         for session in sessions:
             start_str = session.formatted_start_time
             end_str = session.formatted_end_time if session.end_time else "Активна"
-            self.ui.listSessions.addItem(f"{session.id}: {session.name} ({start_str} - {end_str})")
+            self.ui.listSessions.addItem("%d: %s (%s - %s)" % (session.id, session.name, start_str, end_str))
 
-        self.logger.info(f"Список сессий обновлен, количество: {len(sessions)}")
+        self.logger.info("Список сессий обновлен, количество: %d", len(sessions))
 
     def _load_session_packets(self) -> None:
         selected = self.ui.listSessions.currentItem()
@@ -114,18 +99,18 @@ class MainWindow(QMainWindow):
         parts = session_text.split(":", 1)
 
         if len(parts) < 2:
-            self.logger.warning(f"Неверный формат сессии: {session_text}")
+            self.logger.warning("Неверный формат сессии: %s", session_text)
             self._show_error("Неверный формат записи сессии")
             return
 
         session_id_str, rest = parts[0].strip(), parts[1].strip()
         if not session_id_str.isdigit():
-            self.logger.warning(f"Неверный формат ID сессии: {session_id_str}")
-            self._show_error(f"Неверный формат ID сессии: {session_id_str}")
+            self.logger.warning("Неверный формат ID сессии: %s", session_id_str)
+            self._show_error("Неверный формат ID сессии: %s" % session_id_str)
             return
 
         session_id = int(session_id_str)
-        self.logger.debug(f"Загрузка пакетов для сессии ID: {session_id}")
+        self.logger.debug("Загрузка пакетов для сессии ID: %d", session_id)
         time_range = "N/A"
 
         if "(" in rest and ")" in rest:
@@ -137,13 +122,13 @@ class MainWindow(QMainWindow):
 
         packets = self.db.get_session_packets(session_id)
         if not packets:
-            self.logger.info(f"Для сессии {session_id} не найдено пакетов")
+            self.logger.info("Для сессии %d не найдено пакетов", session_id)
             self._show_error("Для выбранной сессии нет пакетов данных")
             return
 
         self.ui.HistoryPacketTableWidget.setRowCount(0)
         packet_count = len(packets)
-        self.ui.lblSessionInfo.setText(f"Сессия: {session_name} | Диапазон: {time_range} | Пакетов: {packet_count}")
+        self.ui.lblSessionInfo.setText("Сессия: %s | Диапазон: %s | Пакетов: %d" % (session_name, time_range, packet_count))
 
         for packet in packets:
             packet_data = {
@@ -158,10 +143,10 @@ class MainWindow(QMainWindow):
             self._add_packet_to_table(
                 self.ui.HistoryPacketTableWidget,
                 packet_data,
-                f"{session_id}: {session_name}"
+                "%d: %s" % (session_id, session_name)
             )
 
-        self.logger.info(f"Загружено {packet_count} пакетов для сессии {session_id}")
+        self.logger.info("Загружено %d пакетов для сессии %d", packet_count, session_id)
 
     def _handle_new_packet(self, packet: Union[dict, str, list]) -> None:
         if not packet:
@@ -174,7 +159,7 @@ class MainWindow(QMainWindow):
             return
 
         self.current_packet_counter += 1
-        session_text = f"Сессия {self.current_session_id}" if hasattr(self, 'current_session_id') else None
+        session_text = "Сессия %d" % self.current_session_id if hasattr(self, 'current_session_id') else None
 
         packet_data = {
             'id': parsed.id,
@@ -186,7 +171,7 @@ class MainWindow(QMainWindow):
         }
 
         self._add_packet_to_table(self.ui.PacketTableWidget, packet_data, session_text)
-        self.logger.debug(f"Обработан пакет #{self.current_packet_counter}")
+        self.logger.debug("Обработан пакет #%d", self.current_packet_counter)
 
     def _prepare_packet_items(self, packet: dict, session_info: Optional[str] = None) -> List[str]:
         payload = packet.get('payload', 0)
@@ -194,7 +179,7 @@ class MainWindow(QMainWindow):
             str(packet.get('id', 'N/A')),
             str(packet.get('counter', packet.get('packetCounter', 'N/A'))),
             self._format_time(packet.get('timestamp')),
-            f"{payload:.4f}",
+            "%.4f" % payload,
             hex(packet.get('crc16', 0)),
             'NegativeValue' if payload < 0 else 'OK',
             str(session_info) if session_info else "Текущая"
@@ -222,7 +207,7 @@ class MainWindow(QMainWindow):
             try:
                 raw_packet = json.loads(raw_packet)
             except json.JSONDecodeError as e:
-                self.logger.error(f"Ошибка декодирования JSON: {e}")
+                self.logger.error("Ошибка декодирования JSON: %s", str(e))
                 return None
 
         if isinstance(raw_packet, list):
@@ -256,7 +241,7 @@ class MainWindow(QMainWindow):
             else:
                 return datetime.strptime(str(time_value), '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M:%S')
         except Exception as e:
-            self.logger.error(f"Ошибка формата времени: {e}")
+            self.logger.error("Ошибка формата времени: %s", str(e))
             return "N/A"
 
     def _start_generation(self) -> None:
@@ -273,11 +258,11 @@ class MainWindow(QMainWindow):
         self.current_packet_counter = 0
         self.ui.PacketTableWidget.setRowCount(0)
 
-        session_name = f"Сессия {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+        session_name = "Сессия %s" % datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         response = self.api.start_session(session_name)
 
         if response.status_code != 200:
-            self.logger.error(f"Ошибка запуска сессии, код статуса: {response.status_code}")
+            self.logger.error("Ошибка запуска сессии, код статуса: %d", response.status_code)
             self._show_error("Ошибка создания сессии")
             return
 
@@ -294,9 +279,9 @@ class MainWindow(QMainWindow):
             self.signalr.join_session(int(self.current_session_id))
             self.is_generation_active = True
             self._update_ui_state()
-            self.logger.info(f"Генерация запущена для сессии {self.current_session_id}")
+            self.logger.info("Генерация запущена для сессии %d", self.current_session_id)
         else:
-            self.logger.error(f"Ошибка запуска генерации, код статуса: {response.status_code}")
+            self.logger.error("Ошибка запуска генерации, код статуса: %d", response.status_code)
             self._show_error("Ошибка запуска генерации")
 
     def _stop_generation(self) -> None:
@@ -313,11 +298,11 @@ class MainWindow(QMainWindow):
                     self._update_ui_state()
                     self.logger.info("Генерация остановлена")
                 else:
-                    self.logger.error(f"Ошибка остановки генерации, код статуса: {response.status_code}")
+                    self.logger.error("Ошибка остановки генерации, код статуса: %d", response.status_code)
                     self._show_error("Сервер не подтвердил остановку генерации")
         except Exception as e:
-            self.logger.error(f"Ошибка при остановке генерации: {e}")
-            self._show_error(f"Ошибка при остановке генерации: {str(e)}")
+            self.logger.error("Ошибка при остановке генерации: %s", str(e))
+            self._show_error("Ошибка при остановке генерации: %s" % str(e))
 
     def _toggle_server_connection(self) -> None:
         try:
@@ -330,7 +315,7 @@ class MainWindow(QMainWindow):
                 self.signalr.connect()
                 self.logger.info("Попытка подключения к серверу")
         except Exception as e:
-            self.logger.error(f"Ошибка подключения: {e}")
+            self.logger.error("Ошибка подключения: %s", str(e))
             QMessageBox.critical(
                 self,
                 "Ошибка подключения",
@@ -364,12 +349,12 @@ class MainWindow(QMainWindow):
 
         self.signalr_connected = False
         self.is_generation_active = False
-        self.logger.error(f"Ошибка соединения: {error_msg}")
+        self.logger.error("Ошибка соединения: %s", error_msg)
 
         QMessageBox.critical(
             self,
             "Ошибка соединения",
-            f"Не удалось подключиться к серверу:\n\n{error_msg}",
+            "Не удалось подключиться к серверу:\n\n%s" % error_msg,
             QMessageBox.StandardButton.Ok
         )
 
@@ -381,17 +366,17 @@ class MainWindow(QMainWindow):
         self.ui.btnStop.setEnabled(self.is_generation_active)
         self._check_db_connection()
         db_status = "БД: ✔" if self.db_connected else "БД: ✖"
-        gen_status = f"Генерация: {'ВКЛ' if self.is_generation_active else 'ВЫКЛ'}"
+        gen_status = "Генерация: %s" % ('ВКЛ' if self.is_generation_active else 'ВЫКЛ')
         server_status = "Сервер: ОТКЛЮЧЕН" if not self.signalr_connected else "Сервер: ✔"
 
-        self.ui.statusbar.showMessage(f"{db_status} | {gen_status} | {server_status}")
+        self.ui.statusbar.showMessage("%s | %s | %s" % (db_status, gen_status, server_status))
 
     def _show_error(self, message: str) -> None:
         if not message.strip():
             message = "Произошла неизвестная ошибка"
-        self.ui.statusbar.showMessage(f"ОШИБКА: {message}", 3000)
+        self.ui.statusbar.showMessage("ОШИБКА: %s" % message, 3000)
         if "разорвал" in message or "отключ" in message.lower():
-            self.logger.error(f"Критическая ошибка: {message}")
+            self.logger.error("Критическая ошибка: %s", message)
             QMessageBox.critical(
                 self,
                 "Ошибка",
@@ -399,7 +384,7 @@ class MainWindow(QMainWindow):
                 QMessageBox.StandardButton.Ok
             )
         else:
-            self.logger.warning(f"Предупреждение: {message}")
+            self.logger.warning("Предупреждение: %s", message)
 
     def closeEvent(self, event) -> None:
         if self.is_generation_active:

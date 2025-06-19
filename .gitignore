@@ -81,6 +81,9 @@ MANIFEST
 
 *.spec
 
+**/telemetry_*.txt
+**/client_*.log
+
 packages/
 node_modules/
 .env

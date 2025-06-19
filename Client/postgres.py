@@ -8,6 +8,7 @@ from row_models import Session, TelemetryPacket
 
 class PostgresManager:
     def __init__(self, config: Dict[str, Any]):
+        self.logger = logging.getLogger(__name__)
         config["client_encoding"] = "utf-8"
         self.conn = psycopg2.connect(**config)
         self.conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
@@ -30,10 +31,10 @@ class PostgresManager:
                         end_time=row[3].timestamp() if row[3] else None
                     ))
                 except Exception as e:
-                    print(f"Ошибка обработки сессии: {str(e)}")
+                    self.logger.error("Ошибка обработки сессии: %s", str(e))
             return sessions
         except Exception as e:
-            print(f"Ошибка БД в get_sessions: {str(e)}")
+            self.logger.error("Ошибка БД в get_sessions: %s", str(e))
             return []
 
     def get_session_packets(self, session_id: int) -> List[TelemetryPacket]:
@@ -60,23 +61,23 @@ class PostgresManager:
                         status='OK'
                     ))
                 except Exception as e:
-                    print(f"Ошибка обработки пакета: {str(e)}")
+                    self.logger.error("Ошибка обработки пакета: %s", str(e))
             return packets
         except Exception as e:
-            print(f"Ошибка БД get_session_packets: {str(e)}")
+            self.logger.error("Ошибка БД get_session_packets: %s", str(e))
             return []
 
     def close(self):
         try:
             if hasattr(self, 'cursor') and self.cursor:
-                print("Соединение с БД закрыто")
+                self.logger.info("Соединение с БД закрыто")
                 self.cursor.close()
         except Exception as e:
-            logging.error(f"Ошибка закрытия курсора: {e}")
+            self.logger.error("Ошибка закрытия курсора: %s", str(e))
 
         try:
             if hasattr(self, 'conn') and self.conn:
                 if not self.conn.closed:
                     self.conn.close()
         except Exception as e:
-            logging.error(f"Ошибка закрытия соединения: {e}")
+            self.logger.error("Ошибка закрытия соединения: %s", str(e))
