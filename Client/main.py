@@ -1,9 +1,10 @@
 import sys
+
+from PySide6.QtWidgets import QApplication
+
 from config import Config
 from logging_config import setup_logging
-from PySide6.QtWidgets import QApplication
 from main_window import MainWindow
-
 
 if __name__ == "__main__":
     Config.load_env()

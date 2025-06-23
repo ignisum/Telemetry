@@ -1,5 +1,7 @@
 from enum import Enum
+
 from PySide6.QtWidgets import *
+
 
 class CustomColumn:
     def __init__(self, title: str, tool_tip: str):

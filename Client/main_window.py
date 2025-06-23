@@ -8,9 +8,9 @@ from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QMainWindow, QMessageBox, QTableWidgetItem
 
 from config import Config
-from server_connection import SignalRClient, TelemetryApiClient
-from row_models import TelemetryPacket
 from postgres import PostgresManager
+from row_models import TelemetryPacket
+from server_connection import SignalRClient, TelemetryApiClient
 from ui_telemetry_client import Ui_MainWindow
 
 
